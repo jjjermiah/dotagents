@@ -1,38 +1,139 @@
 ---
 name: pixi-expert
 description: |
-  Advanced pixi for multi-environment and workspace composition. Use when configuring features, solve groups, system requirements, monorepo workspaces, or rattler-build—e.g., "pixi workspace", "multi-environment setup", "CUDA system requirements".
+  Comprehensive pixi package manager skill for all pixi operations from beginner to advanced. Use for initializing projects, managing dependencies, configuring environments, multi-environment setups, workspace composition, system requirements (CUDA/glibc), task workflows, CI/CD integration, or any pixi.toml/pyproject.toml configuration—e.g., "pixi init", "pixi add numpy", "setup multi-environment project", "configure CUDA", "monorepo workspace", "pixi.lock issues", "Docker with pixi", "GitHub Actions pixi".
 ---
 
 # Pixi Expert
 
 ## Purpose
 
-Advanced pixi patterns for multi-environment composition, system requirements, and workspace management.
+Complete reference for pixi - the modern cross-platform package manager unifying conda and PyPI ecosystems. Covers everything from basic project setup to advanced multi-environment composition and workspace management.
 
-## Multi-Environment Composition
+## Core Concepts
 
-Define multiple environments in one file using **features**.
+Pixi treats your project folder as a **workspace** with three key artifacts:
 
-### Core Concepts
+| Artifact | Purpose | Git |
+|----------|---------|-----|
+| `pixi.toml` / `pyproject.toml` | Manifest with dependencies, tasks, configuration | **Commit** |
+| `pixi.lock` | Reproducible lock file with exact versions | **Commit** |
+| `.pixi/` | Environment directory with installed packages | **Ignore** |
 
-- **Features**: Named sets of dependencies/tasks
-- **Environments**: Composed from features
-- **Solve Groups**: Ensure consistent versions across environments
+```gitignore
+# .gitignore
+.pixi/
+```
 
-### Basic Pattern
+## Quick Start
+
+### Project Setup
+
+```bash
+pixi init                      # New project (pixi.toml)
+pixi init --format pyproject   # Python package (pyproject.toml)
+```
+
+### Dependencies
+
+```bash
+pixi add numpy pandas          # Add conda-forge packages
+pixi add --pypi requests       # Add PyPI packages
+pixi add --platform linux-64 gcc  # Platform-specific
+pixi remove <package>          # Remove package
+```
+
+### Environment Management
+
+```bash
+pixi install                   # Sync environment with manifest
+pixi install --frozen          # Use lock exactly (CI/production)
+pixi install --locked          # Error if lock outdated
+pixi install --all             # Install all environments
+
+pixi shell                     # Enter environment shell
+pixi shell -e dev              # Specific environment
+
+pixi run <command>             # Run command in environment
+pixi run -e dev pytest         # Run in specific environment
+pixi run test                  # Run defined task
+```
+
+### Information
+
+```bash
+pixi info                      # Project/environment details
+pixi list                      # Installed packages
+pixi tree                      # Dependency tree
+```
+
+## Configuration
+
+### pixi.toml (General Projects)
 
 ```toml
 [workspace]
-name = "myproject"
+name = "my-project"
 channels = ["conda-forge"]
-platforms = ["linux-64", "osx-arm64"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
 
 [dependencies]
 python = ">=3.10"
 numpy = "*"
 
-# Define features
+[pypi-dependencies]
+requests = ">=2.28"
+
+[tasks]
+start = "python main.py"
+test = "pytest"
+```
+
+### pyproject.toml (Python Packages)
+
+```toml
+[project]
+name = "my-package"
+version = "0.1.0"
+dependencies = ["numpy", "pandas"]  # PyPI runtime deps
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
+
+[tool.pixi.dependencies]
+python = ">=3.10"
+
+[tool.pixi.pypi-dependencies]
+requests = "*"
+
+[tool.pixi.tasks]
+test = "pytest"
+```
+
+## Lock File Management
+
+**Always commit `pixi.lock`** for reproducibility.
+
+```bash
+pixi install              # Updates lock if manifest changed
+pixi install --frozen     # Install from lock without updating
+pixi install --locked     # Error if lock doesn't match manifest
+pixi update               # Update dependencies and regenerate lock
+```
+
+## Multi-Environment Composition
+
+Define multiple environments using **features** and **solve groups**.
+
+### Basic Pattern
+
+```toml
+[dependencies]
+python = ">=3.10"
+numpy = "*"
+
+# Define features (named dependency sets)
 [feature.test.dependencies]
 pytest = "*"
 pytest-cov = "*"
@@ -50,21 +151,21 @@ lint = "ruff check ."
 # Compose environments
 [environments]
 default = ["test"]                              # default + test
-dev = ["test", "dev"]                           # default + test + dev
-prod = { features = [], solve-group = "prod" }  # minimal
-test-prod = { features = ["test"], solve-group = "prod" }  # same versions as prod
-lint = { features = ["dev"], no-default-feature = true }   # only dev tools
+dev = { features = ["test", "dev"] }            # default + test + dev
+prod = { features = [], solve-group = "main" }  # minimal only
+test-prod = { features = ["test"], solve-group = "main" }
+lint = { features = ["dev"], no-default-feature = true }
 ```
 
 ### Solve Groups
 
-Use solve groups to keep dependency versions consistent across environments.
+Keep dependency versions consistent across environments:
 
 ```toml
 [environments]
+dev = { features = ["test", "dev"], solve-group = "production" }
 prod = { features = [], solve-group = "production" }
 test-prod = { features = ["test"], solve-group = "production" }
-# Both environments have identical dependency versions
 ```
 
 ### Platform-Specific Features
@@ -83,35 +184,37 @@ gpu = ["cuda"]
 cpu = []
 ```
 
-### Usage
-
-```bash
-pixi run -e dev test      # Run in dev environment
-pixi shell -e prod        # Enter prod shell
-pixi install -e gpu       # Install GPU environment
-pixi install --all        # Install all environments
-```
+**Reference**: Load `references/environments.md` for detailed patterns.
 
 ## System Requirements
 
-Virtual packages (`__linux`, `__cuda`, `__glibc`) declare system capabilities.
+Virtual packages declare system capabilities for the solver.
+
+| Virtual Package | Represents | Typical Value |
+|-----------------|------------|---------------|
+| `__linux` | Linux kernel | `>= 4.18` |
+| `__glibc` | GNU C Library | `>= 2.28` |
+| `__cuda` | CUDA driver | `>= 12` |
+| `__osx` | macOS version | `>= 13.0` |
 
 ### CUDA Configuration
 
 ```toml
 [system-requirements]
-cuda = "12"  # Expected host CUDA driver API version
+cuda = "12"  # Expected host CUDA driver API
 
 [feature.gpu.dependencies]
 pytorch = "*"
+cuda-nvcc = "*"
 ```
 
 ### glibc / Linux Version
 
 ```toml
+# For older systems (CentOS 7, RHEL 7)
 [system-requirements]
-linux = "4.18"
-libc = { family = "glibc", version = "2.28" }
+linux = "3.10"
+libc = { family = "glibc", version = "2.17" }
 ```
 
 ### Override via Environment Variables
@@ -122,27 +225,22 @@ export CONDA_OVERRIDE_GLIBC=2.17
 pixi install
 ```
 
-### Feature-Specific Requirements
+**Reference**: Load `references/system-requirements.md` for detailed CUDA/glibc patterns.
 
-```toml
-[feature.gpu]
-system-requirements = { cuda = "12" }
+## Workspace & Multi-Package Repos
 
-[feature.legacy]
-system-requirements = { linux = "4.12", libc = { family = "glibc", version = "2.17" } }
-```
-
-## Multi-Package Repo
-
-Use separate manifests per package and run commands via `--manifest-path`.
+Structure multiple packages in one repository:
 
 ```
 repo/
-├── packages/
-│   ├── core/
-│   │   └── pixi.toml
-│   └── app/
-│       └── pixi.toml
+├── pixi.toml              # Optional root workspace manifest
+└── packages/
+    ├── core/
+    │   └── pixi.toml      # Package manifest
+    ├── app/
+    │   └── pixi.toml
+    └── utils/
+        └── pixi.toml
 ```
 
 ### Package Manifest
@@ -154,10 +252,11 @@ version = "0.1.0"
 
 [dependencies]
 requests = "*"
-utils = { path = "../utils" }
+utils = { path = "../utils" }  # Cross-package dependency
 
 [tasks]
 build = "python -m build"
+test = "pytest"
 ```
 
 ### Commands
@@ -167,18 +266,117 @@ pixi run --manifest-path packages/core/pixi.toml test
 pixi install --manifest-path packages/app/pixi.toml
 ```
 
+**Reference**: Load `references/workspace.md` for monorepo patterns and build systems.
+
+## Task Workflows
+
+Define and run project tasks:
+
+```toml
+[tasks]
+test = "pytest"
+test-cov = "pytest --cov"
+lint = { cmd = "ruff check .", depends-on = ["format"] }
+format = "ruff format ."
+dev = "uvicorn main:app --reload"
+```
+
+```bash
+pixi run test          # Run task
+pixi run lint          # Runs format first (dependency)
+pixi run --list        # List available tasks
+```
+
+**Note**: For complex task orchestration (caching, inputs/outputs, parameterized tasks), load **pixi-tasks** skill in combination.
+
+## Global Tools
+
+Install CLI tools system-wide:
+
+```bash
+pixi global install ruff black mypy
+pixi global install python=3.11
+pixi global list
+pixi global update
+```
+
+## Environment Variables
+
+Pixi sets automatically:
+
+| Variable | Value |
+|----------|-------|
+| `CONDA_PREFIX` | Environment path (`.pixi/envs/<env>`) |
+| `PIXI_PROJECT_ROOT` | Project directory |
+| `PIXI_ENVIRONMENT_NAME` | Current environment name |
+
+## Integration Patterns
+
+### Docker
+
+```dockerfile
+FROM ghcr.io/prefix-dev/pixi:0.41.4 AS build
+
+WORKDIR /app
+COPY . .
+RUN pixi install --locked -e prod
+RUN pixi shell-hook -e prod -s bash > /shell-hook
+RUN echo "#!/bin/bash" > /app/entrypoint.sh
+RUN cat /shell-hook >> /app/entrypoint.sh
+RUN echo 'exec "$@"' >> /app/entrypoint.sh
+
+FROM ubuntu:24.04
+WORKDIR /app
+COPY --from=build /app/.pixi/envs/prod /app/.pixi/envs/prod
+COPY --from=build --chmod=0755 /app/entrypoint.sh /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
+```
+
+### GitHub Actions
+
+```yaml
+- uses: prefix-dev/setup-pixi@v0.9.2
+  with:
+    pixi-version: v0.41.4
+    cache: true
+- run: pixi run test
+```
+
+## Troubleshooting
+
+```bash
+pixi info                    # Check environment state
+pixi list                    # See installed packages
+pixi tree                    # View dependency tree
+pixi install                 # Sync environment
+rm -rf .pixi && pixi install # Clean reinstall
+```
+
 ## References
 
-- **[references/environments.md](references/environments.md)** - Load when defining features, solve groups, or environment composition.
-- **[references/system-requirements.md](references/system-requirements.md)** - Load when dealing with CUDA, glibc, or virtual packages.
-- **[references/workspace.md](references/workspace.md)** - Load when structuring multi-package repos or path dependencies.
+Load these references when needed:
+
+- **[references/environments.md](references/environments.md)**: Load when defining multi-environment setups, features, solve groups, or environment composition patterns.
+- **[references/system-requirements.md](references/system-requirements.md)**: Load when configuring CUDA, glibc, virtual packages, or dealing with platform-specific dependencies and Docker GPU setups.
+- **[references/workspace.md](references/workspace.md)**: Load when structuring monorepos, setting up multi-package workspaces, managing cross-package dependencies, or using build systems (pixi-build-python, pixi-build-cmake, rattler-build).
 
 ## Do / Don't
 
 **Do**
-- Use Context7 or pixi docs for exact syntax when unsure.
-- Keep examples minimal and correct; put deep details in references.
+- Commit `pixi.lock` for reproducibility.
+- Use `pixi run` over manual activation in scripts and CI.
+- Use solve groups for consistent versions across environments.
+- Use Context7 or official pixi docs for exact syntax.
+- Keep root workspace manifests minimal; details in member packages.
 
 **Don't**
-- Use undocumented keys (check docs first).
-- Assume parallel task execution without documentation.
+- Edit `pixi.lock` by hand.
+- Assume undocumented options exist (check docs first).
+- Forget to update lock file after changing dependencies.
+- Mix conda-forge and PyPI dependencies without considering compatibility.
+
+## External Resources
+
+- **Pixi Documentation**: https://pixi.sh/latest/
+- **Multi-environments**: https://pixi.sh/latest/tutorials/multi_environment/
+- **Manifest reference**: https://pixi.sh/latest/reference/pixi_manifest/
