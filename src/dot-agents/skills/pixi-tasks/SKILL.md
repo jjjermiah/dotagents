@@ -81,6 +81,47 @@ Cache invalidates when:
 - Command string changes
 - Environment packages change
 
+## Platform-Specific Tasks
+
+Define tasks that behave differently per platform using `[target.<platform>.tasks]`. Pixi automatically selects the correct implementation based on the current platform.
+
+```toml
+# Target-agnostic tasks that depend on platform-specific setup
+task = { cmd = "echo 'Running main task'", depends-on = ["setup"] }
+
+[target.linux-64.tasks]
+setup = { cmd = "echo 'Linux setup'", description = "Setup for Linux" }
+
+[target.osx-arm64.tasks]
+setup = { cmd = "echo 'macOS setup'", description = "Setup for macOS" }
+```
+
+```bash
+pixi run task  # Runs the correct 'setup' for your platform, then 'task'
+```
+
+### Platform-Specific Dependencies + Tasks
+
+Combine with `[target.<platform>.dependencies]` to install packages only on specific platforms:
+
+```toml
+# Install stow only on Linux (via conda-forge)
+[target.linux-64.dependencies]
+stow = "*"
+
+# Target-agnostic tasks
+task = { cmd = "stow --version", depends-on = ["check-stow"] }
+
+# Platform-specific setup tasks (same name, different implementations)
+[target.linux-64.tasks]
+check-stow = { cmd = "which stow", description = "Verify stow is available (pixi-installed)" }
+
+[target.osx-arm64.tasks]
+check-stow = { cmd = "which stow || (echo 'Install with: brew install stow' && exit 1)", description = "Verify stow is available (brew-installed)" }
+```
+
+**Key insight**: Tasks with the same name in different `[target.*.tasks]` sections are automatically resolved based on the current platform. Target-agnostic tasks can depend on these platform-specific tasks by name.
+
 ## Cross-Environment Tasks
 
 Run tasks across multiple environments:

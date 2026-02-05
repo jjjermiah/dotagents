@@ -1,5 +1,33 @@
 # dot-agents (`.agents`)
 
+Personal dotfiles repo for OpenCode agents, skills, and configuration. Uses
+GNU Stow to symlink repo files into `$HOME` without copying.
+
+## Repo summary
+- `src/` holds stow packages (each maps into `$HOME`).
+- `src/dot-agents/skills/` stows to `~/.agents/skills/`.
+- `src/dot-config/opencode/` stows to `~/.config/opencode/`.
+- `bin/` contains helper scripts; `pixi.toml` defines tasks.
+
+## Stow model (how it works)
+GNU Stow creates symlinks from package directories under `src/` into `$HOME`.
+This repo uses Stow's `--dotfiles` mode, so `dot-` directories map to dot
+directories (for example `dot-config` → `~/.config`, `dot-agents` → `~/.agents`).
+
+Quick start:
+
+```console
+pixi run stow
+```
+
+This symlinks everything in `src/` into your home directory. To remove:
+
+```console
+pixi run unstow
+```
+
+Edit files in this repo; the symlinks update automatically.
+
 ```console
 dot-agents
 ├── Agents
