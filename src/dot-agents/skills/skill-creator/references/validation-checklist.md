@@ -24,6 +24,15 @@
 ## Content
 
 - [ ] Instructions concise and actionable
+- [ ] Persuasion principles applied if skill enforces discipline or guides decisions
+- [ ] Skill type-appropriate principle combination (see persuasion-principles.md table)
+- [ ] No illegitimate tactics (fear, shame, guilt, false urgency, fabricated social proof)
+- [ ] Ethical test passed: serves user's genuine interests
+- [ ] Bright-line rules use imperative language ("YOU MUST", "Never", "Always")
+- [ ] Commitment mechanisms where applicable (announcements, tracking, explicit choices)
+- [ ] Implementation intentions: "When X, do Y" format for triggers
+- [ ] Alternatives or tradeoffs noted where applicable
+- [ ] Uncertainty or limitations stated when relevant
 - [ ] SKILL.md under 500 lines
 - [ ] Uses imperative/infinitive form
 - [ ] Code examples have language tags

@@ -23,6 +23,33 @@ Guide for creating effective, token-efficient skills for AI agents. Covers skill
 
 Context window is shared. Only add what the agent doesn't already know. Challenge every piece of content: "Is this essential?" Prefer examples over explanations.
 
+### Use Persuasion Principles
+
+Skills that enforce discipline or guide decisions should use persuasion principles from the research on LLM compliance (Cialdini 2021, Meincke et al. 2025). These techniques more than doubled compliance rates (33% → 72%).
+
+**Key principles for skills:**
+
+- **Authority**: Imperative language "YOU MUST", "Never", "Always", "No exceptions"
+- **Commitment**: Require announcements, explicit choices, tracking (TodoWrite)
+- **Scarcity**: Time-bound requirements "Before proceeding", "Immediately after X"
+- **Social Proof**: Universal patterns "Every time", "Always", "X without Y = failure"
+- **Unity**: Collaborative language "our codebase", "we're colleagues"
+- **Reciprocity**: Use sparingly - can feel manipulative
+- **Liking**: **DON'T USE for compliance** - conflicts with honest feedback
+
+**Skill type combinations:**
+
+| Skill Type | Use | Avoid |
+|------------|-----|-------|
+| Discipline-enforcing | Authority + Commitment + Social Proof | Liking, Reciprocity |
+| Guidance/technique | Moderate Authority + Unity | Heavy authority |
+| Collaborative | Unity + Commitment | Authority, Liking |
+| Reference | Clarity only | All persuasion |
+
+**Ethical test**: Would this serve the user's genuine interests if they fully understood it?
+
+See [references/persuasion-principles.md](references/persuasion-principles.md) for full details and examples.
+
 ### Set Appropriate Freedom
 
 - **High** (text instructions): Multiple valid approaches
@@ -110,6 +137,10 @@ Creates template with SKILL.md, example directories.
 
 Write for another AI agent instance. Include non-obvious procedural knowledge.
 
+If the skill will produce recommendations or influence decisions,
+include ethical persuasion guidance and a self-review checklist.
+See [references/persuasion-principles.md](references/persuasion-principles.md).
+
 **Consult**:
 - [references/effective-patterns.md](references/effective-patterns.md) - Patterns & anti-patterns
 - [references/workflows.md](references/workflows.md) - Sequential/conditional workflows
@@ -159,6 +190,8 @@ Test on real tasks. Note inefficiencies. Update skill. Repeat.
 - Execute scripts directly via shebang (never `python <script>`) and ensure they are executable
 - Use imperative/infinitive form
 - Include a clear "Purpose" section at the top of every skill
+- Include ethical persuasion guidance when the skill recommends or persuades
+- Avoid manipulation tactics (fear, shame, false urgency, fabricated social proof)
 
 **DON'T**:
 - Create README.md, INSTALLATION.md, or auxiliary docs
@@ -172,5 +205,6 @@ Test on real tasks. Note inefficiencies. Update skill. Repeat.
 - **[references/effective-patterns.md](references/effective-patterns.md)** - Load for patterns, anti-patterns, and skill design guidance
 - **[references/workflows.md](references/workflows.md)** - Load when designing sequential or conditional workflows
 - **[references/output-patterns.md](references/output-patterns.md)** - Load for output format guidance and contracts
+- **[references/persuasion-principles.md](references/persuasion-principles.md)** - Load when writing recommendation, persuasion, or decision-support guidance
 - **[references/skill-description-guide.md](references/skill-description-guide.md)** - Load for description template and examples
 - **[references/validation-checklist.md](references/validation-checklist.md)** - Load before packaging to verify all requirements

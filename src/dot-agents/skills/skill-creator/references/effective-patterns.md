@@ -47,6 +47,36 @@ code-reviewer/
 
 SKILL.md describes structure. Examples show proper execution.
 
+## Pattern: Persuasion-Enforced Skills
+
+**When**: Skill enforces discipline (TDD, verification, safety-critical practices) or guides important decisions.
+
+**Structure**:
+```markdown
+## Core Requirements (Authority)
+
+YOU MUST [action]. Never [anti-pattern]. No exceptions.
+
+## Implementation (Commitment)
+
+When [trigger], IMMEDIATELY [action].
+
+Track with: TodoWrite checklist
+
+## Why This Matters (Social Proof)
+
+[X without Y = failure]. Every time.
+```
+
+**Key elements**:
+- **Authority**: Imperative "YOU MUST", absolute language
+- **Commitment**: Explicit triggers + required actions
+- **Social Proof**: Document failure modes, universal patterns
+- **Unity**: Collaborative "we" language for non-hierarchical skills
+- **Ethical boundaries**: No fear/shame/guilt, no false urgency
+
+See [persuasion-principles.md](persuasion-principles.md) for principle definitions, combinations by skill type, and research citations.
+
 ## Pattern: Script-Heavy Skills
 
 **When**: Same code rewritten repeatedly, deterministic operation, reliability critical.
