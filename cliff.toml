@@ -1,0 +1,42 @@
+# [git-cliff](https://github.com/orhun/git-cliff) configuration file
+
+[changelog]
+header = "# Changelog\n\nAll notable changes to this project will be documented in this file.\n"
+body = """
+{% if version %}\
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+    ## [unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags | trim | upper_first }}
+    {% for commit in commits %}
+        - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/jjjermiah/dot-agents/commit/{{ commit.id }}))\
+    {% endfor %}
+{% endfor %}
+"""
+trim = true
+
+[git]
+conventional_commits = true
+filter_unconventional = true
+split_commits = false
+commit_parsers = [
+    { message = "^feat", group = "<span class=\"text-green-600\">✨ Features</span>" },
+    { message = "^fix", group = "<span class=\"text-red-600\">🐛 Bug Fixes</span>" },
+    { message = "^refactor", group = "<span class=\"text-purple-600\">🚜 Refactor</span>" },
+    { message = "^doc", group = "<span class=\"text-blue-600\">📚 Documentation</span>" },
+    { message = "^perf", group = "<span class=\"text-yellow-600\">⚡ Performance</span>" },
+    { message = "^style", group = "<span class=\"text-pink-600\">🎨 Styling</span>" },
+    { message = "^test", group = "<span class=\"text-indigo-600\">🧪 Testing</span>" },
+    { message = "^chore\\(release\\):", skip = true },
+    { message = "^chore", group = "<span class=\"text-gray-600\">⚙️ Miscellaneous Tasks</span>" },
+    { body = "^.*Signed-off-by:.+", skip = true },
+]
+protect_breaking_commits = false
+filter_commits = false
+tag_pattern = "v[0-9]*"
+skip_tags = "v0.1.0-beta.1"
+ignore_tags = ""
+topo_order = false
+sort_commits = "oldest"

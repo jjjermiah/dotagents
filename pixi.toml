@@ -2,10 +2,20 @@
 authors = ["Jermiah Joseph <jermiahjoseph98@gmail.com>"]
 channels = ["conda-forge"]
 name = "dot-agents"
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
 install-opencode = {cmd = "bin/install_opencode.sh", description = "Install OpenCode CLI tool to $HOME/.local/bin"}
 stow = {cmd = "stow --target=$HOME --dotfiles  src -vv", description = "Stow dotfiles to home directory"}
 unstow = {cmd = "stow --target=$HOME --dotfiles --delete src -vv", description = "Unstow dotfiles from home directory"}
+
+[feature.git-cliff.dependencies]
+git-cliff = "*"
+
+[feature.git-cliff.tasks]
+changelog = {cmd = "git-cliff --config cliff.toml --latest --strip header", description = "Generate changelog for latest release", env = { GITHUB_REPO = "jjjermiah/dot-agents" }}
+
+[environments]
+default = { features = [], solve-group = "default" }
+release = { features = ["git-cliff"], solve-group = "default" }
