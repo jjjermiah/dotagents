@@ -22,6 +22,17 @@ BEFORE PROCEEDING, require the user to explicitly choose their starting point:
 
 YOU MUST get explicit confirmation: "Which starting point describes you: Stuck, Seed, or Open?" No proceeding until selected.
 
+## Session Tracking
+
+Throughout any session, track progress mentally and surface when relevant:
+
+- **Current mode**: Which mode are we in?
+- **Ideas captured**: How many distinct ideas so far?
+- **Convergence status**: Still diverging, or ready to converge?
+- **Selection status**: Has a selection been made?
+
+Surface progress when: changing phases, user seems lost, or before generating session summary.
+
 ## Escape Mode: Breaking Convergent Thinking
 
 When ideas cluster around the same approaches.
@@ -60,6 +71,8 @@ Apply one unusual constraint (see [references/constraint-prompts.md]):
 
 Generate 3-5 ideas under this constraint. The constraint forces exploration of non-adjacent space.
 
+**Exit Criteria:** Escape Mode is complete when you have 5+ genuinely distinct approaches (not variations). If still clustering, return to Step 1. If ready to select, transition to Diverge-Converge Phase 3 (Converge).
+
 ## Expand Mode: Growing Seeds
 
 When you have an initial idea that needs development.
@@ -91,6 +104,8 @@ Find where the seed breaks:
 - What assumption, if wrong, kills this?
 - What's the dumbest possible version?
 
+**Exit Criteria:** Expand Mode is complete when the seed has been stress-tested and either strengthened or revealed as flawed. If strengthened, move to Refinement Mode or implementation. If flawed, return to Escape Mode or try a different seed.
+
 ## Diverge-Converge Mode: Systematic Generation
 
 When you need to generate and select from many options.
@@ -119,6 +134,8 @@ Select top 3-5 ideas:
 
 YOU MUST get explicit selection: "Which ideas are we moving forward with?" Confirm choices before proceeding.
 
+**Exit Criteria:** Diverge-Converge is complete when selection is confirmed with explicit rationale. If selection reveals need for more options, return to Phase 1. If ready to detail the selection, transition to Refinement Mode.
+
 ## Anti-Patterns: NEVER Use These
 
 Throughout all modes, we guard against these failure patterns:
@@ -133,7 +150,18 @@ Throughout all modes, we guard against these failure patterns:
 
 **Premature evaluation without generation first = guaranteed mediocre results. Every time.**
 
-## Collaborative Design Mode: Validation
+## Group Dynamics
+
+When facilitating with multiple people:
+
+- **Generate before discussing**: Have each person generate ideas independently before sharing. Prevents anchoring.
+- **Expert speaks last**: Domain experts share after others have contributed. Their ideas carry implicit weight.
+- **Name convergence when you see it**: If ideas cluster, call it out: "I notice we're all in the same space. Let's try [axis rotation / constraint / domain import]."
+- **Protect half-formed ideas**: In groups, vague hunches get killed early. Explicitly invite "things that feel important but aren't clear yet."
+
+## Refinement Mode: Validating and Detailing
+
+**When to enter:** After selection is made in any other mode and you're ready to validate and detail the chosen direction.
 
 When you have a direction and need to refine it through dialogue.
 
@@ -159,6 +187,32 @@ When you have a direction and need to refine it through dialogue.
 ### Output
 
 Write validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
+
+## Session Summary Output
+
+At the end of ANY brainstorming session, YOU MUST generate a summary:
+
+```markdown
+## Brainstorming Session Summary
+
+**Date:** [YYYY-MM-DD]
+**Mode:** [Escape | Expand | Diverge-Converge]
+**Problem/Seed:** [brief description of what we brainstormed]
+
+### Ideas Generated
+[numbered list of distinct ideas, or clusters with ideas within]
+
+### Selection Made
+[selected ideas with brief rationale, or "None yet - still diverging"]
+
+### Key Insights
+[what we learned about the problem space]
+
+### Next Steps
+[follow-up actions, experiments to run, or questions to answer]
+```
+
+Generate this summary when: user indicates session is done, selection has been confirmed, or conversation naturally concludes.
 
 ## References
 

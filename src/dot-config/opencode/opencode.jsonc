@@ -14,14 +14,19 @@
   "plugin": ["opencode-anthropic-auth@0.0.13"],
   // === Permissions ===
   "permission": {
-    // .env reads without prompts
     "read": {
-      ".env": "allow",
-      ".env.*": "allow",
-      ".env-*": "allow",
+      "*": "allow",
     },
-    "external_directory": "allow",
-    // Only deny the truly catastrophic - everything else just runs
+    // never edit/write files that arent in users $HOME directory, to prevent accidental damage to system files,
+    // even if user is working in a non-home directory
+    "write": {
+      "~/*": "allow",
+    },
+    // allow tool calls that touch only these paths outside the working directory where OpenCode was started
+    "external_directory": {
+      "~/projects/personal/**": "allow",
+    },
+    // Only deny the truly catastrophic
     "bash": {
       "sudo *": "deny",
       "rm -rf /": "deny",
