@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 import re
 import sys
 from dataclasses import dataclass
@@ -170,39 +169,111 @@ def output_table(skills: List[Skill], agents: List[Agent], console: Console) -> 
         console.print(skill_table)
 
 
+def build_tree_content(
+    skills: List[Skill],
+    agents: List[Agent],
+    show_descriptions: bool = False,
+    use_color: bool = True,
+) -> str:
+    """Build tree content as string, optionally with color codes."""
+    # Plain text tree without color codes
+    lines = ["dot-agents"]
+
+    if agents:
+        lines.append("├── Agents")
+        for i, agent in enumerate(agents):
+            is_last_agent = i == len(agents) - 1 and not skills
+            prefix = "│   └── " if is_last_agent else "│   ├── "
+            mode_str = f" ({agent.mode})" if agent.mode else ""
+            lines.append(f"{prefix}{agent.name}{mode_str}")
+            if show_descriptions:
+                desc = extract_use_when(agent.description)
+                # Indent description under agent
+                desc_prefix = "│       " if is_last_agent else "│   │   "
+                for line in _wrap_text(desc, 60):
+                    lines.append(f"{desc_prefix}{line}")
+
+    if skills:
+        lines.append("└── Skills")
+        for i, skill in enumerate(skills):
+            is_last = i == len(skills) - 1
+            prefix = "    └── " if is_last else "    ├── "
+            lines.append(f"{prefix}{skill.name}")
+            if show_descriptions:
+                desc = extract_use_when(skill.description)
+                desc_prefix = "        " if is_last else "    │   "
+                for line in _wrap_text(desc, 60):
+                    lines.append(f"{desc_prefix}{line}")
+
+    return "\n".join(lines)
+
+
+def _wrap_text(text: str, width: int) -> List[str]:
+    """Wrap text into lines of max width, breaking at word boundaries."""
+    if len(text) <= width:
+        return [text]
+
+    words = text.split()
+    lines = []
+    current_line = []
+    current_len = 0
+
+    for word in words:
+        if current_len + len(word) + (1 if current_line else 0) <= width:
+            current_line.append(word)
+            current_len += len(word) + (1 if current_len > 0 else 0)
+        else:
+            if current_line:
+                lines.append(" ".join(current_line))
+            current_line = [word]
+            current_len = len(word)
+
+    if current_line:
+        lines.append(" ".join(current_line))
+
+    return lines if lines else [text]
+
+
 def output_tree(
     skills: List[Skill],
     agents: List[Agent],
     console: Console,
     show_descriptions: bool = False,
+    use_color: bool = True,
 ) -> None:
     """Output results in a tree structure."""
-    root = Tree("[bold cyan]dot-agents[/bold cyan]")
+    if use_color:
+        root = Tree("[bold cyan]dot-agents[/bold cyan]")
 
-    if agents:
-        agents_branch = root.add("[bold]Agents[/bold]")
-        for agent in agents:
-            mode_str = f" ([yellow]{agent.mode}[/yellow])" if agent.mode else ""
-            if show_descriptions:
-                desc = extract_use_when(agent.description)
-                agents_branch.add(
-                    f"[green]{agent.name}[/green]{mode_str}\n  [dim]{desc}[/dim]"
-                )
-            else:
-                agents_branch.add(f"[green]{agent.name}[/green]{mode_str}")
+        if agents:
+            agents_branch = root.add("[bold]Agents[/bold]")
+            for agent in agents:
+                mode_str = f" ([yellow]{agent.mode}[/yellow])" if agent.mode else ""
+                if show_descriptions:
+                    desc = extract_use_when(agent.description)
+                    agents_branch.add(
+                        f"[green]{agent.name}[/green]{mode_str}\n  [dim]{desc}[/dim]"
+                    )
+                else:
+                    agents_branch.add(f"[green]{agent.name}[/green]{mode_str}")
 
-    if skills:
-        skills_branch = root.add("[bold]Skills[/bold]")
-        for skill in skills:
-            if show_descriptions:
-                desc = extract_use_when(skill.description)
-                skills_branch.add(f"[green]{skill.name}[/green]\n  [dim]{desc}[/dim]")
-            else:
-                skills_branch.add(f"[green]{skill.name}[/green]")
+        if skills:
+            skills_branch = root.add("[bold]Skills[/bold]")
+            for skill in skills:
+                if show_descriptions:
+                    desc = extract_use_when(skill.description)
+                    skills_branch.add(
+                        f"[green]{skill.name}[/green]\n  [dim]{desc}[/dim]"
+                    )
+                else:
+                    skills_branch.add(f"[green]{skill.name}[/green]")
 
-    console.print()
-    console.print(root)
-    console.print()
+        console.print()
+        console.print(root)
+        console.print()
+    else:
+        content = build_tree_content(skills, agents, show_descriptions, use_color)
+        console.print(content)
 
 
 def output_compact(
@@ -289,6 +360,11 @@ def main() -> int:
         action="store_true",
         help="Show descriptions in tree and compact formats",
     )
+    parser.add_argument(
+        "--no-color",
+        action="store_true",
+        help="Output plain text without ANSI color codes",
+    )
 
     args = parser.parse_args()
 
@@ -321,7 +397,7 @@ def main() -> int:
     if args.format == "json":
         output_json(skills, agents)
     elif args.format == "tree":
-        output_tree(skills, agents, console, args.show_descriptions)
+        output_tree(skills, agents, console, args.show_descriptions, not args.no_color)
     elif args.format == "compact":
         output_compact(skills, agents, console, args.show_descriptions)
     else:
