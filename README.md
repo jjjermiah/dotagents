@@ -35,6 +35,9 @@ dot-agents
 │   ├── ask (primary)
 │   │   General-purpose agent for researching complex questions and
 │   │   executing multi-step tasks. Use this...
+│   ├── azure-devops (subagent)
+│   │   Azure DevOps (ADO) specialist. ALWAYS USE WHEN INTERACTING
+│   │   WITH ADO Repos/Pull Requests/Pipelines...
 │   ├── docs (subagent)
 │   │   Documentation writer - generates and updates markdown docs,
 │   │   READMEs, and guides. Can only write to...
@@ -44,9 +47,15 @@ dot-agents
 │   ├── r-dev (subagent)
 │   │   R development specialist - production-grade R code,
 │   │   packages, and data workflows.
+│   ├── rovo (subagent)
+│   │   USE WHEN THE USER ASKS FOR ANYTHING RELATED TO JIRA OR
+│   │   CONFLUENCE.
 └── Skills
-    ├── azuredevops-logging
+    ├── azuredevops-pipelines-logging
     │   Use when writing or debugging `##vso[.
+    ├── azuredevops-pipelines-template
+    │   Use when designing or debugging Azure Pipelines YAML
+    │   templates, splitting PR validation from...
     ├── code-reviewer
     │   Use when a feature is complete and needs validation, when
     │   reviewing code before merge, or when...
@@ -90,6 +99,6 @@ dot-agents
         Use when building new skills, updating existing skills,
         validating skill structure against...
 
-Total: 4 agents, 15 skills
+Total: 6 agents, 16 skills
 ```
 <!-- AGENTS-SKILLS-TREE:END -->
