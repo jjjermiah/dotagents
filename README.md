@@ -65,6 +65,9 @@ dot-agents
     ├── pixi-tasks
     │   Use when building task dependency chains, configuring
     │   caching with inputs/outputs, creating...
+    ├── python-code-quality
+    │   Use when configuring Ruff rules, setting up ty type
+    │   checking, writing pyproject.
     ├── python-production-libs
     │   Use when choosing libraries for HTTP clients, CLI
     │   frameworks, data validation, structured logging,...
@@ -99,6 +102,6 @@ dot-agents
         Use when building new skills, updating existing skills,
         validating skill structure against...
 
-Total: 6 agents, 16 skills
+Total: 6 agents, 17 skills
 ```
 <!-- AGENTS-SKILLS-TREE:END -->
