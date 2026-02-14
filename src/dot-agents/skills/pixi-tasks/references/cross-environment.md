@@ -9,7 +9,6 @@ Multi-version testing, environment matrices, cross-environment workflows.
 - [Backend Version Matrix](#backend-version-matrix)
 - [Build/Test Separation](#buildtest-separation)
 - [GPU/CPU Testing](#gpucpu-testing)
-- [Workspace Cross-Environment](#workspace-cross-environment)
 - [CI/CD Integration](#cicd-integration)
 - [Best Practices](#best-practices)
 - [Troubleshooting](#troubleshooting)
@@ -168,26 +167,29 @@ wait
 ## Best Practices
 
 1. **Use solve groups** for consistent versions:
+
 ```toml
 [environments]
 py311 = { features = ["py311"], solve-group = "test" }
 py312 = { features = ["py312"], solve-group = "test" }
 ```
 
-2. **Name environments clearly**: `py311`, `gpu`, `prod`
+1. **Name environments clearly**: `py311`, `gpu`, `prod`
 
-3. **Keep cross-env tasks simple** - Just delegation
+2. **Keep cross-env tasks simple** - Just delegation
 
-4. **Document environment differences** in comments
+3. **Document environment differences** in comments
 
 ## Troubleshooting
 
 **Environment not found**:
+
 ```bash
 pixi info  # List available environments
 ```
 
 **Task not in environment**:
+
 ```toml
 # Task must be in default or feature included in environment
 [tasks]

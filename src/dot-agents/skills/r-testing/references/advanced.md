@@ -19,6 +19,7 @@ test_that("API integration works", {
 ```
 
 **Common skip functions:**
+
 - `skip()` - Skip unconditionally with message
 - `skip_if()` - Skip if condition is TRUE
 - `skip_if_not()` - Skip if condition is FALSE
@@ -116,6 +117,7 @@ test_that("service integration works", {
 ```
 
 **Never commit secrets:**
+
 - Add config files with secrets to `.gitignore`
 - Use environment variables in CI/CD
 - Provide example config files: `test_config.yml.example`
@@ -236,6 +238,7 @@ test_that("file output works", {
 ### No External Dependencies
 
 Avoid relying on:
+
 - Network access
 - External processes
 - System commands
@@ -293,11 +296,12 @@ If tests fail when shuffled, they have unintended dependencies on execution orde
 
 Enable parallel test execution in `DESCRIPTION`:
 
-```
+```text
 Config/testthat/parallel: true
 ```
 
 **Requirements for parallel tests:**
+
 - Tests must be independent
 - No shared state between tests
 - Use `local_*()` functions for all side effects

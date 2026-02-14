@@ -125,7 +125,7 @@ except ByteSizeError as e:
 
 **String parsing without validation = runtime failures. Every time.** Always wrap parsing in try/except blocks for user input.
 
-- String parsing accepts whitespace and underscores (e.g., "   1024B   ", "1_073_741_824MB").
+- String parsing accepts whitespace and underscores (e.g., " 1024B ", "1_073_741_824MB").
 - `print(ByteSize(...))` defaults to a best-fit binary unit (base 1024).
 - `readable_metric` uses base 1000, `readable_binary` uses base 1024; both return `(unit, value)`.
 - Full-name unit attributes are supported (e.g., `megabytes`, `gibibytes`).

@@ -182,7 +182,7 @@ package-specific settings (python-version, src paths, rule overrides).
 
 ## Context7 Queries
 
-```
+```text
 libraryId: /websites/astral_sh_ty
 Queries:
   "ty configuration pyproject.toml settings"

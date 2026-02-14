@@ -1,0 +1,77 @@
+# markdownlint-cli2 configuration - Optimized for LLM context efficiency
+# https://github.com/DavidAnson/markdownlint-cli2
+#
+# DESIGN GOAL: Minimize token count for LLM consumption
+# Key principles:
+# - No artificial line wrapping (wrapping = more newlines = more tokens)
+# - Minimal blank lines (each newline is a token)
+# - ATX headers (#) not Setext (underlined) - more compact
+# - 2-space indent (2 tokens) not 4-space (4 tokens)
+# - Fenced code blocks (3 backticks) not indented
+# - No trailing whitespace
+# - Asterisks for emphasis (cheaper than underscores)
+
+# Globs to include/exclude
+globs:
+  - "src/**/*.md"
+  - ".github/**/*.md"
+ignores:
+  - "node_modules/"
+  - ".pixi/"
+  - "**/pixi.lock"
+
+# Config object for markdownlint library
+config:
+  default: false  # Start with all rules disabled, then enable selectively
+  
+  # Required language tags on code blocks (helps LLM parsing)
+  MD040: true
+  
+  # No trailing whitespace - wasted tokens
+  MD009:
+    br_spaces: 0
+    list_item_empty_lines: false
+    strict: true
+  
+  # 2-space indent = 2 tokens vs 4-space = 4 tokens  
+  MD007:
+    indent: 2
+    start_indented: false
+  
+  # ATX headers (# Title) not Setext (Title\n===) - saves tokens
+  MD003:
+    style: atx
+  
+  # Emphasis: asterisks cheaper than underscores
+  MD049:
+    style: asterisk
+  MD050:
+    style: asterisk
+  
+  # No hard tabs - spaces more predictable for tokenization
+  MD010: true
+  
+  # Ordered list: "1. 2. 3." not "1. 1. 1."
+  MD029:
+    style: ordered
+  
+  # Link fragments should be valid
+  MD051: true
+  
+  # No repeated words
+  MD101: true
+  
+  
+  # First line should be H1 heading
+  MD041: true
+  
+  # Allow duplicate headings in different sections
+  MD024:
+    siblings_only: true
+    allow_different_nesting: false
+  
+  # Allow bare URLs (saves token vs [text](url))
+  MD034: false
+  
+  # Allow emphasis as heading (saves tokens vs ##)
+  MD036: false

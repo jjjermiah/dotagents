@@ -16,7 +16,7 @@ rule selection, and pixi task integration for all Python projects.
 **YOU MUST query Context7 before writing Ruff or ty configuration.** These tools
 evolve rapidly. Stale knowledge produces invalid config.
 
-```
+```text
 Context7 slugs:
   Ruff docs:  /websites/astral_sh_ruff
   ty docs:    /websites/astral_sh_ty

@@ -5,6 +5,12 @@ name = "dot-agents"
 platforms = ["osx-arm64", "linux-64"]
 version = "0.1.0"
 
+
+[environments]
+default = { features = [], solve-group = "default" }
+release = { features = ["git-cliff"], solve-group = "default" }
+quality = { features = ['quality'], solve-group = "default" }
+
 [tasks]
 install-opencode = {cmd = "bin/install_opencode.sh", description = "Install OpenCode CLI tool to $HOME/.local/bin"}
 stow = { cmd = "stow --target=$HOME --dotfiles src -vv", depends-on = ["check-stow"], description = "Stow dotfiles to home directory" }
@@ -29,6 +35,13 @@ check-stow = { cmd = "which stow", description = "Verify stow is available (Linu
 [target.osx-arm64.tasks]
 check-stow = { cmd = "which stow || (echo 'ERROR: stow not found. Install with: brew install stow' && exit 1)", description = "Verify stow is available (macOS - requires brew install stow)" }
 
-[environments]
-default = { features = [], solve-group = "default" }
-release = { features = ["git-cliff"], solve-group = "default" }
+[feature.quality.dependencies]
+markdownlint-cli2 = ">=0.20.0,<0.21"
+ruff = ">=0.15.1,<0.16"
+ty = ">=0.0.17,<0.0.18"
+
+[feature.quality.tasks]
+# Uses .markdownlint-cli2.yaml config (auto-detected)
+# Optimized for LLM context: no wrapping, minimal blank lines, 2-space indent
+markdownlint = { cmd = "markdownlint-cli2 'src/**/*.md' '.github/**/*.md' --config .markdownlint-cli2.yaml", description = "Lint markdown files (LLM-optimized rules)" }
+markdownlint-fix = { cmd = "markdownlint-cli2 --fix 'src/**/*.md' '.github/**/*.md' --config .markdownlint-cli2.yaml", description = "Auto-fix markdown issues (LLM-optimized rules)" }

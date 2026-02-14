@@ -16,7 +16,7 @@ Monorepo patterns, multi-package workspaces, cross-package dependencies.
 
 ## Workspace Structure
 
-```
+```text
 repo/
 ├── packages/
 │   ├── core/

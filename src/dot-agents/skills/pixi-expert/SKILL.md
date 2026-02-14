@@ -13,11 +13,11 @@ Complete reference for pixi - the modern cross-platform package manager unifying
 
 When we work with pixi, we treat the project folder as a **workspace** with three key artifacts:
 
-| Artifact | Purpose | Git |
-|----------|---------|-----|
+| Artifact                       | Purpose                                          | Git        |
+| ------------------------------ | ------------------------------------------------ | ---------- |
 | `pixi.toml` / `pyproject.toml` | Manifest with dependencies, tasks, configuration | **Commit** |
-| `pixi.lock` | Reproducible lock file with exact versions | **Commit** |
-| `.pixi/` | Environment directory with installed packages | **Ignore** |
+| `pixi.lock`                    | Reproducible lock file with exact versions       | **Commit** |
+| `.pixi/`                       | Environment directory with installed packages    | **Ignore** |
 
 ```gitignore
 # .gitignore
@@ -189,12 +189,12 @@ cpu = []
 
 Virtual packages declare system capabilities for the solver.
 
-| Virtual Package | Represents | Typical Value |
-|-----------------|------------|---------------|
-| `__linux` | Linux kernel | `>= 4.18` |
-| `__glibc` | GNU C Library | `>= 2.28` |
-| `__cuda` | CUDA driver | `>= 12` |
-| `__osx` | macOS version | `>= 13.0` |
+| Virtual Package | Represents    | Typical Value |
+| --------------- | ------------- | ------------- |
+| `__linux`       | Linux kernel  | `>= 4.18`     |
+| `__glibc`       | GNU C Library | `>= 2.28`     |
+| `__cuda`        | CUDA driver   | `>= 12`       |
+| `__osx`         | macOS version | `>= 13.0`     |
 
 ### CUDA Configuration
 
@@ -230,7 +230,7 @@ pixi install
 
 Structure multiple packages in one repository:
 
-```
+```text
 repo/
 ├── pixi.toml              # Optional root workspace manifest
 └── packages/
@@ -303,11 +303,11 @@ pixi global update
 
 Pixi sets automatically:
 
-| Variable | Value |
-|----------|-------|
-| `CONDA_PREFIX` | Environment path (`.pixi/envs/<env>`) |
-| `PIXI_PROJECT_ROOT` | Project directory |
-| `PIXI_ENVIRONMENT_NAME` | Current environment name |
+| Variable                | Value                                 |
+| ----------------------- | ------------------------------------- |
+| `CONDA_PREFIX`          | Environment path (`.pixi/envs/<env>`) |
+| `PIXI_PROJECT_ROOT`     | Project directory                     |
+| `PIXI_ENVIRONMENT_NAME` | Current environment name              |
 
 ## Integration Patterns
 
@@ -362,6 +362,7 @@ Load these references when needed:
 ## Do / Don't
 
 **Do**
+
 - **YOU MUST commit `pixi.lock`** for reproducibility. Lock files not in version control = broken reproducibility. Every time.
 - **Always use `pixi run`** over manual activation in scripts and CI. Scripts with manual activation fail in other environments without warning.
 - **Always use solve groups** when defining multiple environments. Environments without solve groups inevitably diverge and create "works on my machine" bugs.
@@ -369,6 +370,7 @@ Load these references when needed:
 - Keep root workspace manifests minimal; details in member packages.
 
 **Don't**
+
 - **Never edit `pixi.lock` by hand**. Manual edits corrupt the lock and cause solver failures that waste hours to debug.
 - Assume undocumented options exist (check docs first).
 - Forget to update lock file after changing dependencies.

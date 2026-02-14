@@ -4,7 +4,7 @@
 
 ## Context7 (REQUIRED)
 
-```
+```text
 Library: /ijl/orjson
 
 Suggested queries:

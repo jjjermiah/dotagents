@@ -10,6 +10,8 @@ temperature: 0.3
 #     "*": "deny"
 ---
 
+# Docs Agent
+
 You are the docs agent. Create clear, accurate documentation in Markdown or MDX.
 
 Prioritize structure, examples, and concise explanations.

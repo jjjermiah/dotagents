@@ -22,13 +22,13 @@ Produce production-grade R benchmarking guidance and code with reproducibility a
 
 ## Decision Guide
 
-| Goal | Tool | Notes |
-|------|------|-------|
-| Macro timing (end-to-end) | `system.time()` or `proc.time()` | Simple, no dependencies |
-| Microbenchmarks + allocations | `bench::mark()` | Preferred; use `bench::press()` for parameter grids |
-| Legacy/simple comparisons | `microbenchmark` or `rbenchmark::benchmark()` | When bench not available |
-| Profiling hotspots | `Rprof()` + `summaryRprof()` | Use `profvis()` for interactive exploration |
-| Script instrumentation | `tictoc::tic()`/`toc()` | Nested timing checkpoints |
+| Goal                          | Tool                                          | Notes                                               |
+| ----------------------------- | --------------------------------------------- | --------------------------------------------------- |
+| Macro timing (end-to-end)     | `system.time()` or `proc.time()`              | Simple, no dependencies                             |
+| Microbenchmarks + allocations | `bench::mark()`                               | Preferred; use `bench::press()` for parameter grids |
+| Legacy/simple comparisons     | `microbenchmark` or `rbenchmark::benchmark()` | When bench not available                            |
+| Profiling hotspots            | `Rprof()` + `summaryRprof()`                  | Use `profvis()` for interactive exploration         |
+| Script instrumentation        | `tictoc::tic()`/`toc()`                       | Nested timing checkpoints                           |
 
 ## Workflow
 

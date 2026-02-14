@@ -20,12 +20,12 @@ extends:
     dependencyMode: fast
 ```
 
-2. In Repos -> Branches -> target branch policy:
+1. In Repos -> Branches -> target branch policy:
    - Add Build Validation.
    - Select the PR validation pipeline.
    - Configure policy behavior (required, queue settings, etc).
 
-3. Keep post-merge main pipeline separate:
+2. Keep post-merge main pipeline separate:
 
 ```yaml
 trigger:

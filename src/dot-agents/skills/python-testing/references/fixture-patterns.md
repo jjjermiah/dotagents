@@ -75,12 +75,12 @@ def temp_config(tmp_path):
 
 ## Scope Guidance
 
-| Scope | Use Case | Example |
-|-------|----------|---------|
-| `function` | Default, fresh per test | Most fixtures |
-| `class` | Shared across class methods | Test class setup |
-| `module` | Expensive, shared in file | DB connection |
-| `session` | Global, once per run | Docker containers |
+| Scope      | Use Case                    | Example           |
+| ---------- | --------------------------- | ----------------- |
+| `function` | Default, fresh per test     | Most fixtures     |
+| `class`    | Shared across class methods | Test class setup  |
+| `module`   | Expensive, shared in file   | DB connection     |
+| `session`  | Global, once per run        | Docker containers |
 
 **Rule**: Use narrowest scope that works. Wider scope = shared state risk.
 

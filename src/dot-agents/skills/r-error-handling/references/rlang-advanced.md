@@ -35,7 +35,7 @@ download_and_process <- function(url) {
       abort("HTTP request failed", class = "http_layer_error", parent = cnd)
     }
   )
-  
+
   # Level 2: Parsing layer
   try_fetch(
     data <- parse_json(raw),
@@ -43,7 +43,7 @@ download_and_process <- function(url) {
       abort("JSON parsing failed", class = "parse_layer_error", parent = cnd)
     }
   )
-  
+
   # Level 3: Validation layer
   try_fetch(
     validate_schema(data),
@@ -51,7 +51,7 @@ download_and_process <- function(url) {
       abort("Schema validation failed", class = "validation_layer_error", parent = cnd)
     }
   )
-  
+
   data
 }
 
@@ -88,24 +88,24 @@ try_fetch(
 ```r
 try_fetch(
   operation(),
-  
+
   # Handle specific network errors
   http_timeout = function(cnd) {
     log_info("Timeout, retrying...")
     Sys.sleep(1)
     zap()  # Retry
   },
-  
+
   http_404 = function(cnd) {
     warn("Resource not found, using default")
     default_value
   },
-  
+
   # Handle any other HTTP error
   http_error = function(cnd) {
     abort("Network error occurred", parent = cnd)
   },
-  
+
   # Catch-all for unexpected errors
   error = function(cnd) {
     log_error(cnd)
@@ -171,8 +171,8 @@ safe_divide <- function(x, y, call = caller_env()) {
 #' @param ..., Additional fields
 #' @param class Error subclass
 #' @param call Calling environment
-error_mypackage <- function(message, 
-                            ..., 
+error_mypackage <- function(message,
+                            ...,
                             class = NULL,
                             call = caller_env()) {
   abort(
@@ -228,16 +228,16 @@ abort(c(
 ```r
 report_missing_columns <- function(data, required, call = caller_env()) {
   missing <- setdiff(required, names(data))
-  
+
   if (length(missing) > 0) {
     bullets <- c(
-      sprintf("%d required column%s missing:", 
-              length(missing), 
+      sprintf("%d required column%s missing:",
+              length(missing),
               if (length(missing) > 1) "s are" else " is"),
       set_names(sprintf("Column '%s'", missing), rep("x", length(missing))),
       i = sprintf("Available: %s", paste(names(data), collapse = ", "))
     )
-    
+
     abort(bullets, class = "missing_columns_error", call = call)
   }
 }
@@ -440,13 +440,13 @@ test_that("validates input type", {
     my_function("wrong"),
     class = "mypackage_validation_error"
   )
-  
+
   # With field inspection
   err <- tryCatch(
     my_function("wrong"),
     mypackage_validation_error = identity
   )
-  
+
   expect_equal(err$field, "x")
   expect_equal(err$expected, "numeric")
 })
@@ -459,7 +459,7 @@ test_that("error messages are clear", {
   expect_snapshot(error = TRUE, {
     my_function(bad_input)
   })
-  
+
   # First run creates snapshot
   # Subsequent runs compare
 })
@@ -479,11 +479,11 @@ test_that("error messages are clear", {
 
 get_cached_error <- function(message, class) {
   key <- paste0(class, ":", message)
-  
+
   if (is.null(.globals$cached_error[[key]])) {
     .globals$cached_error[[key]] <- error_cnd(message, class = class)
   }
-  
+
   .globals$cached_error[[key]]
 }
 ```
@@ -493,10 +493,10 @@ get_cached_error <- function(message, class) {
 ```r
 process_pipeline <- function(files, output_dir, call = caller_env()) {
   results <- list()
-  
+
   for (i in seq_along(files)) {
     file <- files[[i]]
-    
+
     results[[i]] <- try_fetch(
       {
         # Layer 1: File I/O
@@ -512,7 +512,7 @@ process_pipeline <- function(files, output_dir, call = caller_env()) {
             )
           }
         )
-        
+
         # Layer 2: Parsing
         try_fetch(
           data <- parse_data(raw),
@@ -525,7 +525,7 @@ process_pipeline <- function(files, output_dir, call = caller_env()) {
             )
           }
         )
-        
+
         # Layer 3: Validation
         try_fetch(
           validate_schema(data),
@@ -538,7 +538,7 @@ process_pipeline <- function(files, output_dir, call = caller_env()) {
             )
           }
         )
-        
+
         # Layer 4: Processing
         process_data(data)
       },
@@ -546,7 +546,7 @@ process_pipeline <- function(files, output_dir, call = caller_env()) {
         # Log full chain
         log_error(sprintf("File %d/%d failed: %s", i, length(files), file))
         log_error_chain(cnd)
-        
+
         # Decide whether to continue
         if (getOption("pipeline_stop_on_error", FALSE)) {
           abort(
@@ -561,7 +561,7 @@ process_pipeline <- function(files, output_dir, call = caller_env()) {
       }
     )
   }
-  
+
   results
 }
 ```

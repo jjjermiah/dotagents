@@ -19,6 +19,7 @@ Task result caching, input/output tracking, build optimization.
 Pixi reuses task results when inputs, outputs, command, and environment packages are unchanged.
 
 Cache invalidates when:
+
 - Any input file changes
 - Any output file missing
 - Command string changes
@@ -156,6 +157,7 @@ Re-run tasks by changing inputs or command definitions.
 ## Common Issues
 
 **Task runs every time**:
+
 ```toml
 # Bad: node_modules changes frequently
 build = { cmd = "npm run build", inputs = ["node_modules/"] }
@@ -165,6 +167,7 @@ build = { cmd = "npm run build", inputs = ["src/", "package.json"] }
 ```
 
 **Cache not invalidating**:
+
 ```toml
 # Bad: missing header dependency
 build = { cmd = "gcc main.c", inputs = ["main.c"] }

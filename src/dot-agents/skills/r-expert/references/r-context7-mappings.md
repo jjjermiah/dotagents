@@ -4,7 +4,7 @@ Use these slugs when querying Context7 for R package documentation.
 
 ## Tidyverse
 
-```
+```text
 /tidyverse/dplyr          # Data manipulation
 /tidyverse/ggplot2        # Visualization
 /tidyverse/tidyr          # Data tidying
@@ -17,7 +17,7 @@ Use these slugs when querying Context7 for R package documentation.
 
 ## Shiny Ecosystem
 
-```
+```text
 /rstudio/shiny            # Web applications
 /rstudio/bslib            # Bootstrap themes
 /rstudio/plotly           # Interactive plots
@@ -25,7 +25,7 @@ Use these slugs when querying Context7 for R package documentation.
 
 ## Testing and Development
 
-```
+```text
 /r-lib/testthat           # Unit testing
 /r-lib/devtools           # Package development
 /r-lib/usethis            # Project setup
@@ -33,7 +33,7 @@ Use these slugs when querying Context7 for R package documentation.
 
 ## Data Science
 
-```
+```text
 /tidymodels/tidymodels    # Machine learning
 /tidymodels/recipes       # Feature engineering
 /tidymodels/parsnip       # Model specification
@@ -41,14 +41,14 @@ Use these slugs when querying Context7 for R package documentation.
 
 ## Database
 
-```
+```text
 /r-dbi/DBI                # Database interface
 /tidyverse/dbplyr         # Database backend for dplyr
 ```
 
 ## Package Management
 
-```
+```text
 /rstudio/renv             # Dependency management
 /r-lib/pak                # Fast package installation
 ```

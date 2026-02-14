@@ -7,7 +7,8 @@ Proven patterns and anti-patterns for skill design.
 **When**: Skill covers multiple sub-domains, each substantial (>100 lines), users typically need one at a time.
 
 **Structure**:
-```
+
+```text
 testing-skill/
 ├── SKILL.md (core + overview)
 └── references/
@@ -24,7 +25,8 @@ Agent reads only relevant reference per task context.
 **When**: Systematic evaluation needed, quality depends on thoroughness, items vary by context.
 
 **Structure**:
-```
+
+```text
 code-reviewer/
 ├── SKILL.md (workflow + when to use checklists)
 └── references/
@@ -38,7 +40,8 @@ SKILL.md describes workflow. Agent consults checklists during evaluation.
 **When**: Output format/quality critical, showing more effective than describing.
 
 **Structure**:
-```
+
+```text
 code-reviewer/
 ├── SKILL.md (output structure)
 └── references/
@@ -52,6 +55,7 @@ SKILL.md describes structure. Examples show proper execution.
 **When**: Skill enforces discipline (TDD, verification, safety-critical practices) or guides important decisions.
 
 **Structure**:
+
 ```markdown
 ## Core Requirements (Authority)
 
@@ -69,6 +73,7 @@ Track with: TodoWrite checklist
 ```
 
 **Key elements**:
+
 - **Authority**: Imperative "YOU MUST", absolute language
 - **Commitment**: Explicit triggers + required actions
 - **Social Proof**: Document failure modes, universal patterns
@@ -82,7 +87,8 @@ See [persuasion-principles.md](persuasion-principles.md) for principle definitio
 **When**: Same code rewritten repeatedly, deterministic operation, reliability critical.
 
 **Structure**:
-```
+
+```text
 pdf-editor/
 ├── SKILL.md (when to use scripts)
 └── scripts/
@@ -98,12 +104,16 @@ Token-efficient, tested, executable without context loading.
 **When**: Core workflow common, advanced features occasional.
 
 **Structure**:
+
 ```markdown
 # SKILL.md
+
 ## Quick start
+
 [core example]
 
 ## Advanced
+
 - **Forms**: See [FORMS.md](FORMS.md)
 - **API**: See [REFERENCE.md](REFERENCE.md)
 ```
@@ -113,6 +123,7 @@ Common case in SKILL.md, advanced in references.
 ## Anti-Pattern: Duplicate "When to Use"
 
 **Wrong**:
+
 ```yaml
 description: Guide for skills
 ---
@@ -121,6 +132,7 @@ Use when creating skills...
 ```
 
 **Right**:
+
 ```yaml
 description: |
   Guide for creating and validating skills. Use when creating skills, validating structure, or packaging—e.g., "create skill", "validate skill".
@@ -134,7 +146,8 @@ Body loads AFTER triggering. Trigger info must be in description.
 ## Anti-Pattern: Auxiliary Docs
 
 **Wrong**:
-```
+
+```text
 skill/
 ├── SKILL.md
 ├── README.md
@@ -143,7 +156,8 @@ skill/
 ```
 
 **Right**:
-```
+
+```text
 skill/
 ├── SKILL.md (all essential content)
 └── references/ (optional details)
@@ -154,11 +168,13 @@ Agent only reads SKILL.md and explicit references.
 ## Anti-Pattern: Vague Description
 
 **Wrong**:
+
 ```yaml
 description: Helps with code quality
 ```
 
 **Right**:
+
 ```yaml
 description: |
   Structured code review against plans and standards. Use when validating completed features before merge—e.g., "finished step X", "ready for review", "check quality and tests".
@@ -175,15 +191,20 @@ Include specific capabilities, "Use when" contexts, and examples.
 ## Anti-Pattern: Broken Progressive Disclosure
 
 **Wrong**:
+
 ```markdown
 # SKILL.md
+
 Follow steps: [workflow]
+
 # (references exist but unmentioned)
 ```
 
 **Right**:
+
 ```markdown
 # SKILL.md
+
 Follow steps: [workflow]
 
 For advanced patterns: [references/advanced.md](references/advanced.md)
@@ -205,7 +226,8 @@ Explicitly link with usage guidance.
 ## Combining Patterns
 
 **Code Reviewer** (Checklist + Examples):
-```
+
+```text
 code-reviewer/
 ├── SKILL.md (workflow)
 └── references/
@@ -214,7 +236,8 @@ code-reviewer/
 ```
 
 **Testing** (Domain + Examples):
-```
+
+```text
 testing/
 ├── SKILL.md (core)
 └── references/
@@ -224,7 +247,8 @@ testing/
 ```
 
 **Data Processing** (Scripts + References):
-```
+
+```text
 data-processing/
 ├── SKILL.md (workflow + scripts)
 ├── scripts/

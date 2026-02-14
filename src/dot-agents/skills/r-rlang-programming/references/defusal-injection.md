@@ -26,11 +26,13 @@ eval(e)
 ### Types of Defused Expressions
 
 1. **Calls** - Function calls
+
    ```r
    expr(mean(x, na.rm = TRUE))
    ```
 
 2. **Symbols** - Variable names
+
    ```r
    expr(my_var)
    sym("my_var")
@@ -62,10 +64,10 @@ Defuse user-supplied arguments:
 my_function <- function(arg) {
   # Capture what the user passed
   user_expr <- enquo(arg)
-  
+
   # Inspect it
   print(user_expr)
-  
+
   # Inject it somewhere
   dplyr::filter(df, !!user_expr)
 }
@@ -422,11 +424,11 @@ transform_filter(mtcars, mpg, ">", 20)
 ```r
 apply_filters <- function(data, ...) {
   conditions <- enquos(...)
-  
+
   for (condition in conditions) {
     data <- dplyr::filter(data, !!condition)
   }
-  
+
   data
 }
 
@@ -438,10 +440,10 @@ apply_filters(mtcars, mpg > 20, cyl == 6)
 ```r
 negate_condition <- function(data, condition) {
   condition <- enquo(condition)
-  
+
   # Build negated version
   negated <- call2("!", condition)
-  
+
   dplyr::filter(data, !!negated)
 }
 
@@ -451,13 +453,13 @@ negate_condition(mtcars, mpg > 20)
 
 ## Base R Comparison
 
-| rlang | Base R |
-|-------|--------|
-| `expr()` | `quote()`, `bquote()` |
-| `enquo()` | `substitute()` |
+| rlang         | Base R                  |
+| ------------- | ----------------------- |
+| `expr()`      | `quote()`, `bquote()`   |
+| `enquo()`     | `substitute()`          |
 | `enquos(...)` | `substitute(list(...))` |
-| `!!` | `bquote(.(x))` |
-| `!!!` | No direct equivalent |
-| `eval_tidy()` | `eval()` |
+| `!!`          | `bquote(.(x))`          |
+| `!!!`         | No direct equivalent    |
+| `eval_tidy()` | `eval()`                |
 
 **Key advantage of rlang:** Consistent syntax, quosures for hygiene, better error messages.

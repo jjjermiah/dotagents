@@ -41,10 +41,10 @@ YOU MUST use Context7 for ALL package-specific documentation. Hard-coded knowled
 
 Standard library IDs:
 
-```
+```text
 # Tidyverse core
 /tidyverse/dplyr       # Data manipulation
-/tidyverse/ggplot2     # Visualization  
+/tidyverse/ggplot2     # Visualization
 /tidyverse/tidyr       # Data reshaping
 /tidyverse/purrr       # Functional programming
 /tidyverse/readr        # Data import
@@ -97,11 +97,11 @@ withr::with_tempfile("tmp", {
   readr::write_csv(data, tmp)
   processed <- readr::read_csv(tmp, show_col_types = FALSE)
 })
-```
+```text
 
 ### Package Structure
 
-```
+```text
 my-package/
 ├── DESCRIPTION          # Package metadata
 ├── NAMESPACE           # Auto-generated exports

@@ -22,15 +22,17 @@ This creates `tests/testthat/` directory, adds testthat to `DESCRIPTION` Suggest
 ## File Organization
 
 **YOU MUST mirror package structure:**
+
 - Code in `R/foofy.R` → tests in `tests/testthat/test-foofy.R`
 - ALWAYS use `usethis::use_r("foofy")` and `usethis::use_test("foofy")` to create paired files
 - No exceptions—non-matching files cause maintenance failures
 
 **Special files:**
+
 - `setup-*.R` - Run during `R CMD check` only, not during `load_all()`
 - `fixtures/` - Static test data files accessed via `test_path()`
 - `helper-*.R` - Helper functions and custom expectations, sourced before tests
-   - good for global test setup that is tailored for test execution in non-interactive or remote environments. For example, you might turn off behaviour that’s aimed at an interactive user, such as messaging or writing to the clipboard.
+  - good for global test setup that is tailored for test execution in non-interactive or remote environments. For example, you might turn off behaviour that’s aimed at an interactive user, such as messaging or writing to the clipboard.
 
 ## Test Structure
 
@@ -48,6 +50,7 @@ test_that("descriptive behavior", {
 **Test descriptions** should read naturally and describe behavior, not implementation.
 
 it is highly encouraged to write descriptions using `glue::glue()` for dynamic content:
+
 - glue is already a dependency of testthat, so it is not expensive to use, but you must add it to `DESCRIPTION` Suggests if you use it in your tests.
 
 ```r
@@ -77,6 +80,7 @@ describe("matrix()", {
 ```
 
 **Key features:**
+
 - `describe()` groups related specifications for a component
 - `it()` defines individual specifications (like `test_that()`)
 - Supports nesting for hierarchical organization
@@ -91,17 +95,20 @@ See [references/bdd.md](references/bdd.md) for comprehensive BDD patterns, neste
 Three scales of testing:
 
 **Micro** (interactive development):
+
 ```r
 devtools::load_all()
 expect_equal(foofy(...), expected)
 ```
 
 **Mezzo** (single file):
+
 ```r
 testthat::test_file("tests/testthat/test-foofy.R")
 ```
 
 **Macro** (full suite):
+
 ```r
 devtools::test()
 devtools::check()
@@ -115,7 +122,7 @@ devtools::check()
 
 ### 1. Self-Contained Tests (Cleanup Side Effects)
 
-YOU MUST use `withr` to manage state changes. Tests without withr::local_* = leaked state. Every time.
+YOU MUST use `withr` to manage state changes. Tests without withr::local\_\* = leaked state. Every time.
 
 ```r
 test_that("function respects options", {
@@ -130,6 +137,7 @@ test_that("function respects options", {
 ```
 
 **Common withr functions:**
+
 - `local_options()` - Temporarily set options
 - `local_envvar()` - Temporarily set environment variables
 - `local_tempfile()` - Create temp file with automatic cleanup
@@ -139,6 +147,7 @@ test_that("function respects options", {
 ### 2. Plan for Test Failure
 
 YOU MUST write tests assuming they will fail and need debugging:
+
 - Tests MUST run independently in fresh R sessions
 - NEVER create hidden dependencies between tests—this causes irreproducible failures
 - ALWAYS make test logic explicit and obvious
@@ -150,6 +159,7 @@ Repeat setup code in tests rather than factoring it out. Test clarity is more im
 ### 4. Use `devtools::load_all()` Workflow
 
 During development:
+
 - ALWAYS use `devtools::load_all()`—NEVER use `library()` for package under test
 - Makes all functions available (including unexported)
 - Automatically attaches testthat
@@ -174,6 +184,7 @@ test_that("error message is helpful", {
 Snapshots stored in `tests/testthat/_snaps/`.
 
 **Workflow—YOU MUST complete all steps:**
+
 ```r
 devtools::test()                    # Creates new snapshots
 
@@ -188,6 +199,7 @@ Unreviewed snapshots = undetected regressions. Every time.
 Three approaches for test data:
 
 **1. Constructor functions** - Create data on-demand:
+
 ```r
 new_sample_data <- function(n = 10) {
   data.frame(id = seq_len(n), value = rnorm(n))
@@ -195,6 +207,7 @@ new_sample_data <- function(n = 10) {
 ```
 
 **2. Local functions with cleanup** - Handle side effects:
+
 ```r
 local_temp_csv <- function(data, env = parent.frame()) {
   path <- withr::local_tempfile(fileext = ".csv", .local_envir = env)
@@ -204,12 +217,12 @@ local_temp_csv <- function(data, env = parent.frame()) {
 ```
 
 **3. Static fixture files** - Store in `fixtures/` directory:
+
 ```r
 data <- readRDS(test_path("fixtures", "sample_data.rds"))
 ```
 
 See [references/fixtures.md](references/fixtures.md) for detailed fixture patterns.
-
 
 ## Common Patterns
 

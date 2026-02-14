@@ -29,7 +29,7 @@ TDD encouraged:
 
 Explicit rules for where tests go:
 
-```
+```text
 New business logic with deps → Layer 4 (fakes, 70%)
 Pure utility function → Layer 3 (pure unit, 10%)
 Real adapter coverage → Layer 2 (mocked I/O, 10%)

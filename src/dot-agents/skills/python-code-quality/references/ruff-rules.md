@@ -135,7 +135,7 @@ allow-dunder-method-names = [    # Custom dunders that won't trigger
 
 When you need details on specific rules:
 
-```
+```text
 libraryId: /websites/astral_sh_ruff
 Queries:
   "ruff flake8-bugbear B rules list"

@@ -23,7 +23,8 @@ Canonical library choices for production Python. Third-party when stdlib is pain
 **Library without Context7 query = implementation based on stale knowledge. Every time.**
 
 Example workflow:
-```
+
+```text
 1. Need HTTP client → Load references/http.md
 2. Get slug: /encode/httpx
 3. Query: mcp_context7_query-docs(libraryId="/encode/httpx", query="async client timeout configuration")
@@ -36,19 +37,19 @@ Example workflow:
 
 ## Quick Reference
 
-| Domain | Use This | Not This |
-|--------|----------|----------|
-| HTTP | `httpx` | `urllib`, `requests` |
-| Logging | `structlog` | `logging` (for structured) |
-| CLI | `typer` | `argparse` |
-| Validation | `pydantic` | `dataclasses` (when validation needed) |
-| JSON | `orjson` | `json` (when perf matters) |
-| Terminal | `rich` | `print()` |
-| Env vars | `pydantic-settings` | `os.environ` |
-| Paths | `pathlib` (stdlib) | `os.path` |
-| Dates/TZ | `zoneinfo` (stdlib) | `pytz` |
-| Testing | `pytest` | `unittest` |
-| Async | `anyio` | `asyncio` (for library code) |
+| Domain     | Use This            | Not This                               |
+| ---------- | ------------------- | -------------------------------------- |
+| HTTP       | `httpx`             | `urllib`, `requests`                   |
+| Logging    | `structlog`         | `logging` (for structured)             |
+| CLI        | `typer`             | `argparse`                             |
+| Validation | `pydantic`          | `dataclasses` (when validation needed) |
+| JSON       | `orjson`            | `json` (when perf matters)             |
+| Terminal   | `rich`              | `print()`                              |
+| Env vars   | `pydantic-settings` | `os.environ`                           |
+| Paths      | `pathlib` (stdlib)  | `os.path`                              |
+| Dates/TZ   | `zoneinfo` (stdlib) | `pytz`                                 |
+| Testing    | `pytest`            | `unittest`                             |
+| Async      | `anyio`             | `asyncio` (for library code)           |
 
 ## References (Load as Needed)
 

@@ -17,6 +17,7 @@ with(mtcars, mean(cyl + am))
 ```
 
 **How it works:**
+
 1. User code is defused (captured without evaluation)
 2. A data mask environment is created from the data frame
 3. The defused code is evaluated in this mask, where columns become variables
@@ -73,6 +74,7 @@ df %>% dplyr::mutate(x = x / !!x)
 ```
 
 **When to use:**
+
 - Programmatically constructed symbols/calls
 - Avoiding variable name collisions
 - More control than `{{` provides
@@ -147,7 +149,7 @@ mtcars %>%
 my_summarise <- function(data, arg) {
   # 1. Defuse the user expression
   arg <- enquo(arg)
-  
+
   # 2. Inject it where needed
   data %>% dplyr::summarise(mean = mean(!!arg, na.rm = TRUE))
 }
@@ -165,6 +167,7 @@ my_summarise <- function(data, arg) {
 ### When to use manual approach
 
 Use `enquo()` + `!!` when you need to:
+
 - Inspect or modify the defused expression
 - Use the expression multiple times in different ways
 - Apply transformations before injection
@@ -208,7 +211,7 @@ select_cols <- function(data, ...) {
 ```r
 standardize_var <- function(data, var) {
   var_expr <- enquo(var)
-  
+
   data %>%
     dplyr::mutate(
       # Use the expression multiple times
@@ -266,11 +269,11 @@ dplyr::select(mtcars, !!var)
 
 ## Base R Equivalents
 
-| rlang | Base R |
-|-------|--------|
-| `enquo(x)` | `substitute(x)` |
+| rlang         | Base R                         |
+| ------------- | ------------------------------ |
+| `enquo(x)`    | `substitute(x)`                |
 | `enquos(...)` | `eval(substitute(alist(...)))` |
-| `eval_tidy()` | `eval()` |
-| `expr()` | `bquote()` |
+| `eval_tidy()` | `eval()`                       |
+| `expr()`      | `bquote()`                     |
 
 **Key difference:** rlang uses quosures (expression + environment) for hygiene, base R uses naked expressions.

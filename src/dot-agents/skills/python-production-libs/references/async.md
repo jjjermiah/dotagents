@@ -4,7 +4,7 @@
 
 ## Context7 (REQUIRED)
 
-```
+```text
 Library: /agronholm/anyio
 
 Suggested queries:

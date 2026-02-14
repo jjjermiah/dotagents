@@ -77,6 +77,7 @@ download = {
 ```
 
 **Cache invalidates immediately when ANY of these conditions are met:**
+
 - Input file changes (hash mismatch)
 - Output file missing
 - Command string changes
@@ -234,10 +235,12 @@ ci = { depends-on = ["build"] }
 ## Do / Don't
 
 **YOU MUST:**
+
 - Verify task schema and behavior against Context7 or official pixi docs before implementing complex workflows
 - Keep task graphs simple; move complex patterns to references
 
 **NEVER:**
+
 - Assume parallel execution without explicit documentation confirming it
 - Use undocumented task keys in production workflows
 - Skip environment testing before committing dependency changes

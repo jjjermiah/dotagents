@@ -6,7 +6,7 @@ Full patterns for selective Rd extraction, batch processing, and helper packages
 
 `tools::parse_Rd()` returns an object of class `"Rd"` — a **nested list of tagged elements**. Each top-level element has an `"Rd_tag"` attribute:
 
-```
+```text
 "\\name", "\\alias", "\\title", "\\description", "\\usage",
 "\\arguments", "\\details", "\\value", "\\section", "\\examples",
 "\\seealso", "\\keyword", "\\note", "\\author", "\\references",
@@ -184,13 +184,13 @@ Heavier dependency (depends on `rbibutils`) but much more powerful for Rd manipu
 
 ### Other packages
 
-| Package | Use case | Status |
-|---------|----------|--------|
-| `Rd2roxygen` | Convert Rd to roxygen2 comments | Active |
-| `Rd2md` | Convert Rd to Markdown | Active |
-| `pkgdown` | Has `rd2html()` for Rd-string-to-HTML | Active |
-| `installr` | `fetch_tag_from_Rd()` — Windows-focused, heavyweight for one function; prefer base R approach above | Active |
-| `Rd` | Had `Rd_get_element()` | **Archived 2019 — do not use** |
+| Package      | Use case                                                                                            | Status                         |
+| ------------ | --------------------------------------------------------------------------------------------------- | ------------------------------ |
+| `Rd2roxygen` | Convert Rd to roxygen2 comments                                                                     | Active                         |
+| `Rd2md`      | Convert Rd to Markdown                                                                              | Active                         |
+| `pkgdown`    | Has `rd2html()` for Rd-string-to-HTML                                                               | Active                         |
+| `installr`   | `fetch_tag_from_Rd()` — Windows-focused, heavyweight for one function; prefer base R approach above | Active                         |
+| `Rd`         | Had `Rd_get_element()`                                                                              | **Archived 2019 — do not use** |
 
 ## Caveats
 

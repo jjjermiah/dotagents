@@ -13,7 +13,7 @@ test_that("validates input types", {
     my_function("invalid"),
     class = "mypackage_validation_error"
   )
-  
+
   # Multiple classes in hierarchy
   expect_error(
     my_function("invalid"),
@@ -30,7 +30,7 @@ test_that("error messages are descriptive", {
     check_positive(-5),
     "must contain only positive values"
   )
-  
+
   # Regex patterns
   expect_error(
     check_positive(-5),
@@ -44,7 +44,7 @@ test_that("error messages are descriptive", {
 ```r
 test_that("accepts valid inputs", {
   expect_no_error(my_function(valid_input))
-  
+
   # Alternative
   expect_silent(my_function(valid_input))
 })
@@ -75,10 +75,10 @@ test_that("various errors are well-formatted", {
   expect_snapshot(error = TRUE, {
     # Snapshot 1
     validate_type(123, "character")
-    
+
     # Snapshot 2
     validate_range(200, 1, 100)
-    
+
     # Snapshot 3
     validate_columns(data, c("x", "y", "z"))
   })
@@ -93,7 +93,7 @@ test_that("error format adapts to context", {
   expect_snapshot(error = TRUE, variant = "interactive", {
     my_function(bad_input)
   })
-  
+
   expect_snapshot(error = TRUE, variant = "non-interactive", {
     my_function(bad_input)
   })
@@ -111,7 +111,7 @@ test_that("error contains correct metadata", {
     mypackage_validation_error = identity,
     error = function(e) fail("Wrong error class")
   )
-  
+
   # Inspect fields
   expect_equal(err$field, "x")
   expect_equal(err$expected, "numeric")
@@ -128,7 +128,7 @@ test_that("error metadata is correct", {
     my_function(bad_input),
     classes = "mypackage_validation_error"
   )
-  
+
   expect_s3_class(err, "mypackage_validation_error")
   expect_equal(err$field, "x")
   expect_match(err$message, "must be numeric")
@@ -142,10 +142,10 @@ test_that("error metadata is correct", {
 ```r
 test_that("chains low-level errors correctly", {
   err <- catch_cnd(download_and_parse("bad_url"))
-  
+
   # Check top-level error
   expect_s3_class(err, "mypackage_download_error")
-  
+
   # Check chained parent
   expect_s3_class(err$parent, "http_error")
   expect_match(err$parent$message, "404")
@@ -157,7 +157,7 @@ test_that("chains low-level errors correctly", {
 ```r
 test_that("error chain provides complete context", {
   err <- catch_cnd(process_file("bad.csv"))
-  
+
   # Walk the chain
   errors <- list()
   current <- err
@@ -165,7 +165,7 @@ test_that("error chain provides complete context", {
     errors <- c(errors, list(current))
     current <- current$parent
   }
-  
+
   expect_length(errors, 3)  # Expected chain depth
   expect_s3_class(errors[[1]], "processing_error")
   expect_s3_class(errors[[2]], "parse_error")
@@ -183,7 +183,7 @@ test_that("warns about deprecated usage", {
     old_function(),
     class = "mypackage_deprecated"
   )
-  
+
   # With message pattern
   expect_warning(
     old_function(),
@@ -200,7 +200,7 @@ test_that("computation succeeds despite warnings", {
     my_function(edge_case),
     classes = "mypackage_known_warning"
   )
-  
+
   expect_equal(result, expected_result)
 })
 ```
@@ -210,7 +210,7 @@ test_that("computation succeeds despite warnings", {
 ```r
 test_that("warning includes deprecation metadata", {
   wrn <- catch_cnd(old_function(), classes = "lifecycle_deprecated")
-  
+
   expect_equal(wrn$old, "old_function")
   expect_equal(wrn$new, "new_function")
   expect_equal(wrn$when, "2.0.0")
@@ -227,7 +227,7 @@ test_that("reports progress messages", {
     process_data(x),
     "Processing 100 records"
   )
-  
+
   expect_message(
     process_data(x),
     class = "mypackage_info_progress"
@@ -257,9 +257,9 @@ test_that("recovers from network errors", {
     "http_get",
     function(...) abort("Network error", class = "http_error")
   )
-  
+
   result <- fetch_with_fallback(url)
-  
+
   expect_equal(result, default_data)
 })
 ```
@@ -269,7 +269,7 @@ test_that("recovers from network errors", {
 ```r
 test_that("retries on transient errors", {
   call_count <- 0
-  
+
   mock_function <- function() {
     call_count <<- call_count + 1
     if (call_count < 3) {
@@ -277,9 +277,9 @@ test_that("retries on transient errors", {
     }
     "success"
   }
-  
+
   result <- retry_on_error(mock_function(), max_attempts = 3)
-  
+
   expect_equal(result, "success")
   expect_equal(call_count, 3)
 })
@@ -298,7 +298,7 @@ test_that("rejects invalid types", {
     list(),
     data.frame()
   )
-  
+
   for (input in invalid_inputs) {
     expect_error(
       validate_input(input),
@@ -317,19 +317,19 @@ test_that("validates all constraints", {
     validate_age("not_numeric"),
     class = "validation_type_error"
   )
-  
+
   # Range validation
   expect_error(
     validate_age(-5),
     class = "validation_range_error"
   )
-  
+
   # Length validation
   expect_error(
     validate_age(numeric(0)),
     class = "validation_length_error"
   )
-  
+
   # Missing validation
   expect_error(
     validate_age(NA),
@@ -347,9 +347,9 @@ test_that("error shows correct calling function", {
   my_wrapper <- function(x) {
     check_positive(x)
   }
-  
+
   err <- catch_cnd(my_wrapper(-5))
-  
+
   # Should show my_wrapper, not check_positive
   expect_match(conditionMessage(err), "my_wrapper")
 })
@@ -362,9 +362,9 @@ test_that("error includes correct argument name", {
   validate_input <- function(data) {
     check_columns(data, required = c("id", "name"))
   }
-  
+
   err <- catch_cnd(validate_input(data.frame(x = 1)))
-  
+
   expect_match(err$message, "`data`")  # Not generic "x"
 })
 ```
@@ -380,7 +380,7 @@ test_that("handles file system errors", {
     "file.exists",
     FALSE
   )
-  
+
   expect_error(
     read_config("config.yml"),
     class = "mypackage_file_not_found"
@@ -397,9 +397,9 @@ test_that("chains database errors appropriately", {
     "DBI::dbGetQuery",
     function(...) abort("Query failed", class = "db_error")
   )
-  
+
   err <- catch_cnd(fetch_records(conn, "SELECT * FROM users"))
-  
+
   expect_s3_class(err, "mypackage_fetch_error")
   expect_s3_class(err$parent, "db_error")
 })
@@ -417,7 +417,7 @@ test_that("pipeline errors propagate correctly", {
     "missing.csv",
     "corrupt.csv"
   )
-  
+
   # Mock file operations
   mockery::stub(
     process_pipeline,
@@ -432,16 +432,16 @@ test_that("pipeline errors propagate correctly", {
       }
     }
   )
-  
+
   # Should handle errors gracefully
   expect_warning(
     results <- process_pipeline(files),
     "Skipping file"
   )
-  
+
   # Valid file should succeed
   expect_false(is.null(results[[1]]))
-  
+
   # Invalid files should be NULL
   expect_null(results[[2]])
   expect_null(results[[3]])
@@ -460,7 +460,7 @@ test_that("error handling has minimal overhead", {
       result <- simple_function(i)
     }
   })
-  
+
   # With error handling
   with_handling <- system.time({
     for (i in 1:10000) {
@@ -470,7 +470,7 @@ test_that("error handling has minimal overhead", {
       )
     }
   })
-  
+
   # Should be < 10% overhead
   expect_lt(
     as.numeric(with_handling["elapsed"]),
@@ -487,19 +487,19 @@ test_that("error handling has minimal overhead", {
 test_that("all error conditions are covered", {
   # Track which errors occurred
   errors_seen <- character()
-  
+
   test_cases <- list(
     list(input = NULL, expected = "null_input"),
     list(input = "wrong", expected = "invalid_type"),
     list(input = -1, expected = "out_of_range"),
     list(input = numeric(0), expected = "empty_input")
   )
-  
+
   for (case in test_cases) {
     err <- catch_cnd(my_function(case$input))
     errors_seen <- c(errors_seen, class(err)[1])
   }
-  
+
   # All expected error classes should be tested
   expect_setequal(
     errors_seen,
@@ -516,7 +516,7 @@ test_that("all error conditions are covered", {
 # Helper for common error assertions
 expect_validation_error <- function(expr, field, expected_type) {
   err <- catch_cnd({{ expr }})
-  
+
   expect_s3_class(err, "mypackage_validation_error")
   expect_equal(err$field, field)
   expect_equal(err$expected, expected_type)
@@ -547,7 +547,7 @@ make_test_error <- function(class, ...) {
 # In tests
 test_that("handles specific error types", {
   err <- make_test_error("mypackage_network_error", status = 500)
-  
+
   # Test handler logic
   result <- handle_network_error(err)
   expect_true(result$should_retry)

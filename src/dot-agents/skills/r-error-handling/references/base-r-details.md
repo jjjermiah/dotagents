@@ -6,7 +6,7 @@ R has a sophisticated condition system with three main types:
 
 ### Condition Hierarchy
 
-```
+```text
 condition (base class)
 ├── error
 ├── warning
@@ -94,6 +94,7 @@ result <- tryCatch(
 ```
 
 **Key properties:**
+
 - Stack unwound before handler runs
 - Cannot use `recover()` or inspect full stack
 - Good for error recovery
@@ -112,7 +113,7 @@ withCallingHandlers(
     # Stack is intact here
     cat("Stack depth:", length(sys.calls()), "\n")
     print(sys.calls())  # Full call stack available
-    
+
     # Condition continues to propagate unless explicitly stopped
   },
   warning = function(w) {
@@ -123,6 +124,7 @@ withCallingHandlers(
 ```
 
 **Key properties:**
+
 - Stack intact during handler
 - Condition propagates after handler (unless stopped)
 - Good for logging, debugging
@@ -189,6 +191,7 @@ withCallingHandlers(
 ```
 
 **Available restarts:**
+
 - `abort` - Terminate (default for errors)
 - `muffleWarning` - Suppress warning
 - `muffleMessage` - Suppress message
@@ -221,11 +224,13 @@ if (inherits(result, "try-error")) {
 ```
 
 **When to use:**
+
 - Simple cases where you just want to suppress errors
 - Legacy code
 - Quick scripts
 
 **Prefer `tryCatch()` or `try_fetch()` for:**
+
 - Production code
 - Selective error handling
 - Custom error classes
@@ -356,16 +361,16 @@ if (is.na(result) && !is.null(attr(result, "error"))) {
 retry <- function(expr, max_attempts = 3, backoff = 1) {
   for (i in seq_len(max_attempts)) {
     result <- try(expr, silent = TRUE)
-    
+
     if (!inherits(result, "try-error")) {
       return(result)
     }
-    
+
     if (i < max_attempts) {
       Sys.sleep(backoff * 2^(i - 1))
     }
   }
-  
+
   stop("Failed after ", max_attempts, " attempts")
 }
 ```
@@ -377,21 +382,21 @@ retry <- function(expr, max_attempts = 3, backoff = 1) {
 process_all <- function(items) {
   results <- list()
   errors <- list()
-  
+
   for (i in seq_along(items)) {
     result <- try(process_item(items[[i]]), silent = TRUE)
-    
+
     if (inherits(result, "try-error")) {
       errors[[i]] <- attr(result, "condition")
     } else {
       results[[i]] <- result
     }
   }
-  
+
   if (length(errors) > 0) {
     warning(sprintf("%d items failed to process", length(errors)))
   }
-  
+
   list(results = results, errors = errors)
 }
 ```
@@ -440,7 +445,7 @@ tryCatch(
 get_stack_trace <- function() {
   calls <- sys.calls()
   frames <- sys.frames()
-  
+
   lapply(seq_along(calls), function(i) {
     list(
       call = calls[[i]],

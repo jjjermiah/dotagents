@@ -6,7 +6,7 @@
 
 ## Context7 (REQUIRED)
 
-```
+```text
 Library: /pytest-dev/pytest
 
 Suggested queries:

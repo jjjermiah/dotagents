@@ -5,6 +5,7 @@ Behavior-Driven Development (BDD) testing uses `describe()` and `it()` to create
 ## When to Use BDD Syntax
 
 **Use BDD (`describe`/`it`) when:**
+
 - Documenting intended behavior of new features
 - Testing complex components with multiple related facets
 - Following test-first development workflows
@@ -13,6 +14,7 @@ Behavior-Driven Development (BDD) testing uses `describe()` and `it()` to create
 - A group of tests (in `it()` statements) rely on a single fixture or local options/envvars (set up in `describe()`)
 
 **Use standard syntax (`test_that`) when:**
+
 - Writing straightforward unit tests
 - Testing implementation details
 - Converting existing test_that() tests (no need to change working code)
@@ -44,6 +46,7 @@ describe("matrix()", {
 ```
 
 Each `it()` block:
+
 - Defines one specification (like `test_that()`)
 - Runs in its own environment
 - Has access to all expectations
@@ -107,6 +110,7 @@ describe("User authentication", {
 ```
 
 Nesting creates clear hierarchies:
+
 - Top level: Component or module
 - Second level: Functions or features
 - Third level: Specific behaviors
@@ -128,6 +132,7 @@ describe("division()", {
 ```
 
 Pending tests:
+
 - Show up in test output as "SKIPPED"
 - Document planned functionality
 - Serve as TODO markers
@@ -291,6 +296,7 @@ test_that("evaluate_tokens() handles operator precedence", {
 ```
 
 **Mixing guidelines:**
+
 - Use BDD for behavioral specifications
 - Use `test_that()` for implementation details
 - Keep related tests in the same style within a section
@@ -386,7 +392,7 @@ describe("order_total()", {
 })
 ```
 
-2. **Implement one specification at a time:**
+1. **Implement one specification at a time:**
 
 ```r
 describe("order_total()", {
@@ -404,9 +410,10 @@ describe("order_total()", {
 })
 ```
 
-3. **Continue until all specs have implementations**
+1. **Continue until all specs have implementations**
 
 This workflow ensures you:
+
 - Think about requirements before implementation
 - Have clear success criteria
 - Build incrementally
@@ -415,6 +422,7 @@ This workflow ensures you:
 ## Comparison: describe/it vs test_that
 
 **describe/it:**
+
 ```r
 describe("str_length()", {
   it("counts characters in string", {
@@ -428,6 +436,7 @@ describe("str_length()", {
 ```
 
 **test_that:**
+
 ```r
 test_that("str_length() counts characters", {
   expect_equal(str_length("abc"), 3)
@@ -439,9 +448,9 @@ test_that("str_length() handles empty strings", {
 ```
 
 Key differences:
+
 - BDD groups related specs under `describe()`
 - BDD uses "it" instead of "test_that"
 - BDD enables nesting for hierarchy
 - BDD supports pending specs without code
 - Both produce identical test results
-

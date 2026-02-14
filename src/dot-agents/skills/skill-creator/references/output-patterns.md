@@ -42,33 +42,3 @@ Sensible default, use judgment:
 
 Adjust as needed.
 ```
-
-## Examples Pattern
-
-For quality depending on examples, provide input/output pairs:
-
-```markdown
-## Commit message format
-
-**Example 1:**
-Input: Added user auth with JWT
-Output:
-```
-feat(auth): implement JWT authentication
-
-Add login endpoint and token validation
-```
-
-**Example 2:**
-Input: Fixed date display bug
-Output:
-```
-fix(reports): correct date timezone conversion
-
-Use UTC timestamps consistently
-```
-
-Follow: type(scope): brief, then detail.
-```
-
-Examples clarify style and detail better than descriptions.

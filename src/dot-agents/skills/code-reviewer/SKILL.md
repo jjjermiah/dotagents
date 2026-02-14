@@ -58,7 +58,7 @@ You MUST return reviews in this exact structure. No exceptions.
    - **Rationale**: why it matters
    - **Fix**: specific recommendation
    - **Ordering**: sort by severity (critical first), then by location
-   
+
    Reviews without severity labels = ambiguous priority. Reviews without fix recommendations = incomplete.
 3. **Tests / verification suggestions** (always include if you found issues)
 4. **Final statement**: "Review complete using code-reviewer skill."

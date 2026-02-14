@@ -21,6 +21,7 @@ Single-argument form (only for simple expressions where LaTeX = readable text):
 ```
 
 Rules:
+
 - Content is **verbatim** — no Rd markup or Markdown processed inside.
 - Backslash `\` is the LaTeX command prefix.
 - `%` must be escaped as `\%` in raw Rd (roxygen2 handles this automatically).
@@ -75,11 +76,11 @@ Roxygen2 may collapse multi-line `\deqn{}` content. Provide an explicit second a
 
 ## Rendering Differences
 
-| Output | Renderer | Notes |
-|--------|----------|-------|
-| PDF | Full LaTeX | Best rendering. amsmath since R 4.2.2. |
-| HTML | KaTeX (R >= 4.2.0) | Good. Prior to 4.2.0, showed ASCII fallback. |
-| Text | Plain text | Shows 2nd argument. If omitted, raw LaTeX. |
+| Output | Renderer           | Notes                                        |
+| ------ | ------------------ | -------------------------------------------- |
+| PDF    | Full LaTeX         | Best rendering. amsmath since R 4.2.2.       |
+| HTML   | KaTeX (R >= 4.2.0) | Good. Prior to 4.2.0, showed ASCII fallback. |
+| Text   | Plain text         | Shows 2nd argument. If omitted, raw LaTeX.   |
 
 ### KaTeX limitations (HTML)
 
@@ -142,14 +143,14 @@ No NAMESPACE directive is needed — mathjaxr works entirely through the `RdMacr
 
 ### Macro variants
 
-| Macro | Args | Purpose |
-|-------|------|---------|
-| `\mjeqn{latex}{ascii}` | 2 | Inline |
-| `\mjdeqn{latex}{ascii}` | 2 | Display |
-| `\mjseqn{text}` | 1 | Inline, single arg |
-| `\mjsdeqn{text}` | 1 | Display, single arg |
-| `\mjteqn{pdf}{html}{ascii}` | 3 | Inline, separate PDF/HTML |
-| `\mjtdeqn{pdf}{html}{ascii}` | 3 | Display, separate PDF/HTML |
+| Macro                        | Args | Purpose                    |
+| ---------------------------- | ---- | -------------------------- |
+| `\mjeqn{latex}{ascii}`       | 2    | Inline                     |
+| `\mjdeqn{latex}{ascii}`      | 2    | Display                    |
+| `\mjseqn{text}`              | 1    | Inline, single arg         |
+| `\mjsdeqn{text}`             | 1    | Display, single arg        |
+| `\mjteqn{pdf}{html}{ascii}`  | 3    | Inline, separate PDF/HTML  |
+| `\mjtdeqn{pdf}{html}{ascii}` | 3    | Display, separate PDF/HTML |
 
 ### When to use mathjaxr vs built-in
 

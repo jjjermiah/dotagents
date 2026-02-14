@@ -19,7 +19,7 @@ Bias toward business logic tests over fakes (Layer 4). Fakes track mutations wit
 
 ## Directory Structure
 
-```
+```text
 project/
 ├── src/mypackage/
 └── tests/

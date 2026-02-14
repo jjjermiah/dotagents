@@ -26,11 +26,13 @@ test_that("function handles data correctly", {
 ```
 
 **Advantages:**
+
 - Fresh data for each test
 - Parameterizable
 - No file I/O
 
 **Use when:**
+
 - Data is cheap to create
 - Multiple tests need similar but not identical data
 - Data should vary between tests
@@ -57,11 +59,13 @@ test_that("CSV reading works", {
 ```
 
 **Advantages:**
+
 - Automatic cleanup
 - Encapsulates setup and teardown
 - Composable
 
 **Use when:**
+
 - Tests create side effects (files, connections)
 - Setup requires multiple steps
 - Cleanup logic is non-trivial
@@ -70,7 +74,7 @@ test_that("CSV reading works", {
 
 Store pre-created data files in `tests/testthat/fixtures/`:
 
-```
+```text
 tests/testthat/
 ├── fixtures/
 │   ├── sample_data.rds
@@ -92,11 +96,13 @@ test_that("function processes real data", {
 ```
 
 **Advantages:**
+
 - Tests against real data
 - Expensive-to-create data computed once
 - Human-readable (for JSON, CSV, etc.)
 
 **Use when:**
+
 - Data is expensive to create
 - Data represents real-world cases
 - Multiple tests use identical data
@@ -159,6 +165,7 @@ withr::local_options(
 ```
 
 **Use setup files for:**
+
 - Package-wide test options
 - Environment variable configuration
 - One-time expensive operations
@@ -271,11 +278,11 @@ test_that("predictions work", {
   expect_length(predictions, 5)
   expect_type(predictions, "double")
 })
-```
+```text
 
 ## Fixture Organization
 
-```
+```text
 tests/testthat/
 ├── fixtures/
 │   ├── data/              # Input data
@@ -297,11 +304,13 @@ tests/testthat/
 ## Best Practices
 
 **Keep fixtures small:**
+
 - Store minimal data needed for tests
 - Use constructors for variations
 - Commit fixtures to version control
 
 **Document fixture origins:**
+
 ```r
 # tests/testthat/fixtures/README.md
 # sample_data.rds
@@ -314,6 +323,7 @@ Contains intentional formatting errors
 ```
 
 **Use consistent paths:**
+
 ```r
 # Always use test_path() for portability
 data <- readRDS(test_path("fixtures", "data.rds"))
@@ -323,6 +333,7 @@ data <- readRDS(test_path("fixtures", "data.rds"))
 ```
 
 **Prefer deterministic fixtures:**
+
 ```r
 # Good: reproducible
 set.seed(123)

@@ -175,10 +175,10 @@ cl <- expr(mean(x, na.rm = TRUE, trim = 0.1))
 call_args(cl)
 #> [[1]]
 #> x
-#> 
+#>
 #> $na.rm
 #> [1] TRUE
-#> 
+#>
 #> $trim
 #> [1] 0.1
 ```
@@ -386,10 +386,10 @@ es <- exprs(x, y + 1, mean(z))
 exprs_auto_name(es)
 #> $x
 #> x
-#> 
+#>
 #> $`y + 1`
 #> y + 1
-#> 
+#>
 #> $`mean(z)`
 #> mean(z)
 ```
@@ -533,10 +533,10 @@ dplyr::filter(df, !!filter_expr)
 ```r
 combine_conditions <- function(..., op = "&") {
   conditions <- list2(...)
-  
+
   if (length(conditions) == 0) return(TRUE)
   if (length(conditions) == 1) return(conditions[[1]])
-  
+
   # Combine pairwise
   result <- conditions[[1]]
   for (i in seq(2, length(conditions))) {
@@ -620,13 +620,13 @@ find_symbols(expr(mean(x + y, na.rm = TRUE)))
 
 ## Base R Comparison
 
-| rlang | Base R |
-|-------|--------|
-| `sym()` | `as.symbol()`, `as.name()` |
-| `call2()` | `call()`, `as.call()` |
-| `is_symbol()` | `is.symbol()`, `is.name()` |
-| `is_call()` | `is.call()` |
-| `as_string()` | `as.character()` |
-| `call_args()` | `as.list(x)[-1]` |
-| `call_name()` | `as.character(x[[1]])` |
-| `call_modify()` | Manual list manipulation |
+| rlang           | Base R                     |
+| --------------- | -------------------------- |
+| `sym()`         | `as.symbol()`, `as.name()` |
+| `call2()`       | `call()`, `as.call()`      |
+| `is_symbol()`   | `is.symbol()`, `is.name()` |
+| `is_call()`     | `is.call()`                |
+| `as_string()`   | `as.character()`           |
+| `call_args()`   | `as.list(x)[-1]`           |
+| `call_name()`   | `as.character(x[[1]])`     |
+| `call_modify()` | Manual list manipulation   |

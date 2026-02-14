@@ -4,13 +4,13 @@
 
 ## Distribution
 
-| Layer | Type | % | Location |
-|-------|------|---|----------|
-| 1 | Fake infrastructure | 5% | `tests/unit/fakes/` |
-| 2 | Integration sanity | 10% | `tests/integration/` |
-| 3 | Pure unit | 10% | `tests/unit/` |
-| 4 | Business logic (fakes) | **70%** | `tests/unit/services/` |
-| 5 | E2E integration | 5% | `tests/e2e/` |
+| Layer | Type                   | %       | Location               |
+| ----- | ---------------------- | ------- | ---------------------- |
+| 1     | Fake infrastructure    | 5%      | `tests/unit/fakes/`    |
+| 2     | Integration sanity     | 10%     | `tests/integration/`   |
+| 3     | Pure unit              | 10%     | `tests/unit/`          |
+| 4     | Business logic (fakes) | **70%** | `tests/unit/services/` |
+| 5     | E2E integration        | 5%      | `tests/e2e/`           |
 
 ## Layer 1: Fake Tests
 
@@ -80,7 +80,7 @@ def test_user_registration_e2e(test_db_url):
 
 ## Decision Tree
 
-```
+```text
 Need to test...
 ├─ Business logic with deps → Layer 4 (fakes)
 ├─ Pure utility, no deps → Layer 3 (pure unit)

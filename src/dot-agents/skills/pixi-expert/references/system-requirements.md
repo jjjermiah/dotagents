@@ -18,12 +18,12 @@ Virtual packages, CUDA, glibc, and system compatibility.
 
 System capability markers used by the solver:
 
-| Virtual Package | Represents | Example |
-|-----------------|------------|---------|
-| `__linux` | Linux kernel | `__linux >= 4.18` |
-| `__glibc` | GNU C Library | `__glibc >= 2.28` |
-| `__cuda` | CUDA driver | `__cuda >= 12` |
-| `__osx` | macOS version | `__osx >= 13.0` |
+| Virtual Package | Represents    | Example           |
+| --------------- | ------------- | ----------------- |
+| `__linux`       | Linux kernel  | `__linux >= 4.18` |
+| `__glibc`       | GNU C Library | `__glibc >= 2.28` |
+| `__cuda`        | CUDA driver   | `__cuda >= 12`    |
+| `__osx`         | macOS version | `__osx >= 13.0`   |
 
 ## Default Requirements
 
@@ -135,8 +135,8 @@ vs2019_win-64 = "*"
 
 ### Mismatching Virtual Package
 
-```
-× The workspace requires '__linux' to be at least version '4.18' 
+```text
+× The workspace requires '__linux' to be at least version '4.18'
   but the system has version '4.12.14'
 ```
 
@@ -144,7 +144,7 @@ vs2019_win-64 = "*"
 
 ### CUDA Not Detected
 
-```
+```text
 × The platform should have __cuda on version 12
 ```
 

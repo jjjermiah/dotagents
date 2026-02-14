@@ -110,6 +110,7 @@ abort(c(
 ```
 
 **Styles available:**
+
 - `{.arg x}` - Argument names
 - `{.fn foo}` - Function names
 - `{.cls data.frame}` - Class names
@@ -179,7 +180,7 @@ Set error call once for entire function:
 ```r
 my_function <- function(x, y) {
   local_error_call(current_env())
-  
+
   # Now all abort() calls automatically use my_function's context
   if (x < 0) abort("x must be positive")
   if (y < 0) abort("y must be positive")
@@ -305,13 +306,13 @@ Modern alternative to `tryCatch()`:
 ```r
 result <- try_fetch(
   my_operation(),
-  
+
   # Handle specific error class
   my_pkg_type_error = function(cnd) {
     warn("Type error, using default")
     default_value
   },
-  
+
   # Handle another class
   my_pkg_io_error = function(cnd) {
     abort("Fatal IO error", parent = cnd)
@@ -320,6 +321,7 @@ result <- try_fetch(
 ```
 
 **Advantages over `tryCatch()`:**
+
 - Clearer syntax
 - Automatic error chaining with `parent`
 - Better backtrace handling
@@ -369,18 +371,20 @@ last_trace()
 # See recent warnings
 last_warnings()
 
-# See recent messages  
+# See recent messages
 last_messages()
 ```
 
 ### Simplified vs Full Backtraces
 
 **Branch** (default) - Shows user code path, hides internal implementation:
+
 ```r
 options(rlang_backtrace_on_error = "branch")
 ```
 
 **Full** - Shows everything including internal functions:
+
 ```r
 options(rlang_backtrace_on_error = "full")
 ```
@@ -432,7 +436,7 @@ test_that("error includes metadata", {
     my_function(x),
     my_pkg_error = identity
   )
-  
+
   expect_equal(err$expected, "numeric")
   expect_equal(err$actual, "character")
 })
@@ -446,7 +450,7 @@ test_that("error includes metadata", {
 validate_args <- function(x, y, z, call = caller_env()) {
   # Collect all errors first
   errors <- character()
-  
+
   if (!is.numeric(x)) {
     errors <- c(errors, "x" = "`x` must be numeric")
   }
@@ -456,7 +460,7 @@ validate_args <- function(x, y, z, call = caller_env()) {
   if (!z %in% c("a", "b", "c")) {
     errors <- c(errors, "x" = "`z` must be 'a', 'b', or 'c'")
   }
-  
+
   # Report all at once
   if (length(errors) > 0) {
     cli::cli_abort(
@@ -512,7 +516,7 @@ safe_compute <- function(x) {
 my_function <- function(x, verbose = FALSE) {
   if (invalid(x)) {
     msg <- c("Invalid input")
-    
+
     if (verbose) {
       msg <- c(
         msg,
@@ -521,7 +525,7 @@ my_function <- function(x, verbose = FALSE) {
         "i" = "Type: {typeof(x)}"
       )
     }
-    
+
     abort(msg)
   }
 }
@@ -559,12 +563,12 @@ cnd_signal(cnd)
 
 ## Base R Comparison
 
-| rlang | Base R |
-|-------|--------|
-| `abort()` | `stop()` |
-| `warn()` | `warning()` |
-| `inform()` | `message()` |
-| `try_fetch()` | `tryCatch()` |
-| Error chaining | Not available |
-| Bullet lists | Manual paste |
-| Backtraces | Limited via `traceback()` |
+| rlang          | Base R                    |
+| -------------- | ------------------------- |
+| `abort()`      | `stop()`                  |
+| `warn()`       | `warning()`               |
+| `inform()`     | `message()`               |
+| `try_fetch()`  | `tryCatch()`              |
+| Error chaining | Not available             |
+| Bullet lists   | Manual paste              |
+| Backtraces     | Limited via `traceback()` |

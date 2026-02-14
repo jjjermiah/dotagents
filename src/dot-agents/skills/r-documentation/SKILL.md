@@ -82,20 +82,20 @@ Use `\preformatted{}` for matrix output examples — preserves exact whitespace.
 
 Two macros for math in Rd:
 
-| Macro | Purpose | LaTeX equivalent |
-|-------|---------|-----------------|
-| `\eqn{latex}{ascii}` | Inline math | `$...$` |
-| `\deqn{latex}{ascii}` | Display (block) math | `$$...$$` |
+| Macro                 | Purpose              | LaTeX equivalent |
+| --------------------- | -------------------- | ---------------- |
+| `\eqn{latex}{ascii}`  | Inline math          | `$...$`          |
+| `\deqn{latex}{ascii}` | Display (block) math | `$$...$$`        |
 
 **Always use the two-argument form** for anything beyond trivial expressions. The second argument is the plain-text fallback shown in terminal `?help`.
 
 ### Rendering by output format
 
-| Output | Renderer | Math source |
-|--------|----------|-------------|
-| PDF | Full LaTeX | 1st argument |
-| HTML (R >= 4.2.0) | KaTeX | 1st argument |
-| Text/terminal | Plain text | 2nd argument (or raw LaTeX if omitted) |
+| Output            | Renderer   | Math source                            |
+| ----------------- | ---------- | -------------------------------------- |
+| PDF               | Full LaTeX | 1st argument                           |
+| HTML (R >= 4.2.0) | KaTeX      | 1st argument                           |
+| Text/terminal     | Plain text | 2nd argument (or raw LaTeX if omitted) |
 
 ### Quick examples
 
@@ -166,6 +166,7 @@ tools::Rd2txt(rd, out = stdout())
 ```
 
 Check for:
+
 - Unbalanced braces (most common Rd error)
 - Missing ASCII fallbacks on complex `\eqn`/`\deqn`
 - Symbols used before definition

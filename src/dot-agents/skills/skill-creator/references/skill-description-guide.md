@@ -10,11 +10,13 @@ description: |
 ```
 
 **Components:**
+
 1. **Capability statement** (1 sentence) — what the skill enables
 2. **"Use when" clause** (2-4 contexts) — semantic conditions, not keywords
 3. **Examples** (1-3, optional) — concrete queries/tasks after em-dash
 
 **Constraints:**
+
 - 50-120 words total
 - No separate "Triggers:" or "Keywords:" sections
 - No disambiguation ("use X instead") — multiple skills loading is fine
@@ -24,12 +26,12 @@ description: |
 
 Mix these for best coverage:
 
-| Type | Example |
-|------|---------|
-| Task-based | "when writing tests", "when reviewing code" |
-| Artifact-based | "when working with R packages", "when editing pixi.toml" |
-| Environment-based | "when pixi.lock detected", "when in a Python project" |
-| Intent-based | "when selecting libraries", "when debugging errors" |
+| Type              | Example                                                  |
+| ----------------- | -------------------------------------------------------- |
+| Task-based        | "when writing tests", "when reviewing code"              |
+| Artifact-based    | "when working with R packages", "when editing pixi.toml" |
+| Environment-based | "when pixi.lock detected", "when in a Python project"    |
+| Intent-based      | "when selecting libraries", "when debugging errors"      |
 
 ## Examples
 
@@ -41,6 +43,7 @@ description: |
   designing fixtures and mocks, or setting up coverage—e.g., "add tests", 
   "fixture design", "fakes vs mocks".
 ```
+
 - Clear capability
 - Multiple task contexts
 - Concrete examples
@@ -51,6 +54,7 @@ description: |
   adding packages, or managing environments—e.g., "pixi add numpy", "setup pixi". 
   Also use when pixi.lock detected.
 ```
+
 - Capability + contexts + examples
 - Environment-based trigger
 
@@ -59,12 +63,14 @@ description: |
 ```yaml
 description: Helps with Python testing.
 ```
+
 - Too vague — when would you NOT use this?
 
 ```yaml
 description: |
   Triggers: "pytest", "test", "fixture", "mock", "coverage"
 ```
+
 - Keyword list without semantic context
 - Misses paraphrases ("write tests", "add unit tests")
 
@@ -73,6 +79,7 @@ description: |
   Python testing skill. Use for pytest. For unittest, use another skill.
   Keywords: pytest, fixture, mock. Do not use for integration tests.
 ```
+
 - Unnecessary disambiguation
 - Mixed formats
 - Restrictive ("do not use")
@@ -88,6 +95,7 @@ description: |
 ## Validation
 
 Ask yourself:
+
 1. Reading only the description, is it clear when to use this skill?
 2. Would an LLM select this for the 5 request types you listed?
 3. Is it under 120 words?

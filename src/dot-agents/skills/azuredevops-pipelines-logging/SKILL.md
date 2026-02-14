@@ -150,7 +150,7 @@ When this skill is used, respond with:
   - Load when the goal is readable/collapsible/highlighted logs only.
 - **[references/agent-action-commands.md](references/agent-action-commands.md)**
   - Load when commands need to change pipeline state (variables, status,
-  artifacts, build/release metadata).
+    artifacts, build/release metadata).
 - **[references/community-gotchas.md](references/community-gotchas.md)** - Load
   when troubleshooting parser failures, escaping edge cases, summary quirks, or
   inconsistent behavior seen in real pipelines.

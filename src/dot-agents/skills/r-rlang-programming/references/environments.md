@@ -104,7 +104,7 @@ e <- env()
 env_bind(e, x = 10)
 
 # Bind multiple
-env_bind(e, 
+env_bind(e,
   x = 10,
   y = 20,
   z = 30
@@ -139,7 +139,7 @@ Re-computed every access:
 e <- env()
 
 # Value changes each time
-env_bind_active(e, 
+env_bind_active(e,
   time = function() Sys.time(),
   random = function() runif(1)
 )
@@ -256,10 +256,10 @@ Bindings active only during function execution:
 test_function <- function() {
   # Temporarily change global bindings
   local_bindings(x = 100, y = 200, .env = global_env())
-  
+
   # x and y are 100 and 200 here
   print(x)
-  
+
   # Automatically restored when function exits
 }
 
@@ -370,13 +370,13 @@ is_attached("dplyr")
 my_function <- function() {
   # Current function's environment
   this_env <- current_env()
-  
+
   # Caller's environment
   caller <- caller_env()
-  
+
   # Current function call
   this_call <- current_call()
-  
+
   # Current function object
   this_fn <- current_fn()
 }
@@ -390,7 +390,7 @@ helper <- function() {
   call <- caller_call()
   env <- caller_env()
   fn <- caller_fn()
-  
+
   list(call = call, env = env, fn = fn)
 }
 
@@ -473,7 +473,7 @@ as.list(e)
 eval_context <- function(data, code) {
   # Create environment with data
   ctx <- new_environment(data, parent = caller_env())
-  
+
   # Evaluate in context
   eval_tidy(code, env = ctx)
 }
@@ -495,7 +495,7 @@ safe_eval <- function(expr) {
     mean = mean,
     c = c
   )
-  
+
   eval_tidy(enexpr(expr), env = sandbox)
 }
 
@@ -509,10 +509,10 @@ safe_eval(system("ls"))       # Error: system not found
 create_module <- function() {
   # Module environment
   mod <- env()
-  
+
   # Private state
   env_bind(mod, .private = list(counter = 0))
-  
+
   # Public functions
   env_bind(mod,
     increment = function() {
@@ -523,7 +523,7 @@ create_module <- function() {
       .private$counter
     }
   )
-  
+
   mod
 }
 
@@ -537,7 +537,7 @@ module$get_count()  #> 1
 ```r
 create_lazy_data <- function() {
   e <- env()
-  
+
   # Bind expensive computations lazily
   env_bind_lazy(e,
     big_data = {
@@ -549,7 +549,7 @@ create_lazy_data <- function() {
       train_model(big_data)
     }
   )
-  
+
   e
 }
 
@@ -567,7 +567,7 @@ with_setting <- function(code, setting = "default") {
     .current_setting = setting,
     .env = global_env()
   )
-  
+
   force(code)
 }
 
@@ -623,13 +623,13 @@ find_binding <- function(name, env = caller_env()) {
 
 ## Base R Comparison
 
-| rlang | Base R |
-|-------|--------|
-| `env()` | `new.env()` |
-| `env_bind()` | `assign()` |
-| `env_get()` | `get()` |
-| `env_has()` | `exists()` |
-| `env_unbind()` | `rm()` |
-| `env_names()` | `ls()` / `names()` |
-| `caller_env()` | `parent.frame()` |
-| `current_env()` | `environment()` |
+| rlang           | Base R             |
+| --------------- | ------------------ |
+| `env()`         | `new.env()`        |
+| `env_bind()`    | `assign()`         |
+| `env_get()`     | `get()`            |
+| `env_has()`     | `exists()`         |
+| `env_unbind()`  | `rm()`             |
+| `env_names()`   | `ls()` / `names()` |
+| `caller_env()`  | `parent.frame()`   |
+| `current_env()` | `environment()`    |

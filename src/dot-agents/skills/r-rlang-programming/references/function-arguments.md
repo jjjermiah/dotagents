@@ -20,6 +20,7 @@ my_function("wrong")     # Error with helpful message
 ```
 
 **Features:**
+
 - First value is default
 - Partial matching supported
 - Clear error messages listing valid options
@@ -58,7 +59,7 @@ my_function <- function(x, y = NULL) {
   if (is_missing(x)) {
     abort("`x` is required")
   }
-  
+
   # Different from is.null()
   if (is_missing(y)) {
     message("Using default for y")
@@ -103,13 +104,13 @@ All these work when using dynamic dots:
 my_function(
   # Splicing with !!!
   !!!list(x = 1, y = 2),
-  
-  # Name injection with "{" 
+
+  # Name injection with "{"
   "{name}" := value,
-  
+
   # Name injection with :=
   !!name := value,
-  
+
   # Regular arguments
   z = 3
 )
@@ -221,6 +222,7 @@ my_function <- function(...) {
 ```
 
 **Options:**
+
 - `.ignore_empty`: `"none"`, `"trailing"`, `"all"`
 - `.preserve_empty`: Keep `NULL`/missing?
 - `.homonyms`: `"error"`, `"first"`, `"last"`, `"keep"`
@@ -235,7 +237,7 @@ For function formals (usually internal use):
 formals <- pairlist2(
   x = ,           # Required
   y = 10,         # Default
-  ... = 
+  ... =
 )
 
 new_function(formals, body)
@@ -298,6 +300,7 @@ validate <- function(user_value) {
 ```
 
 **Benefits:**
+
 - No need to pass `arg = "..."` manually
 - Works with complex expressions
 - Handles renaming gracefully
@@ -305,7 +308,7 @@ validate <- function(user_value) {
 ### Argument Context for Errors
 
 ```r
-check_type <- function(x, 
+check_type <- function(x,
                        type,
                        arg = caller_arg(x),
                        call = caller_env()) {
@@ -341,7 +344,7 @@ accept_flexible <- function(x, ...) {
     # List provided - splice any additional args
     x <- c(x, list2(...))
   }
-  
+
   x
 }
 
@@ -356,12 +359,12 @@ accept_flexible(x = list(1, 2, 3)) # list(1, 2, 3)
 with_options <- function(code, ...) {
   # Collect optional settings
   opts <- dots_list(..., .homonyms = "first")
-  
+
   # Apply temporarily
   if (length(opts) > 0) {
     local_options(!!!opts)
   }
-  
+
   force(code)
 }
 
@@ -373,16 +376,16 @@ with_options({
 ### Forwarding to Multiple Functions
 
 ```r
-multi_forward <- function(..., 
+multi_forward <- function(...,
                           plot_args = list(),
                           model_args = list()) {
   # Dots go to common params
   common <- list2(...)
-  
+
   # Separate args for each function
   plot_args <- c(common, plot_args)
   model_args <- c(common, model_args)
-  
+
   model <- exec(fit_model, !!!model_args)
   exec(plot, model, !!!plot_args)
 }
@@ -394,7 +397,7 @@ multi_forward <- function(...,
 build_call <- function(fn, ..., .args = list()) {
   # Combine dots and explicit args
   args <- c(list2(...), .args)
-  
+
   # Build call
   call2(fn, !!!args)
 }
@@ -409,22 +412,22 @@ build_call("mean", sym("x"), na.rm = TRUE, trim = 0.1)
 ```r
 validated_rbind <- function(...) {
   rows <- list2(...)
-  
+
   # Validation
   if (length(rows) == 0) {
     abort("At least one row required")
   }
-  
+
   if (!all(vapply(rows, is.numeric, logical(1)))) {
     abort("All rows must be numeric")
   }
-  
+
   # All rows same length?
   lengths <- lengths(rows)
   if (length(unique(lengths)) > 1) {
     abort("All rows must have same length")
   }
-  
+
   do.call(rbind, rows)
 }
 ```
@@ -439,7 +442,7 @@ my_generic <- function(x, ...) {
 my_generic.default <- function(x, ..., error = TRUE) {
   # Check no unused dots (except error)
   check_dots_empty()
-  
+
   if (error) {
     abort("No method for class {class(x)}")
   }
@@ -457,13 +460,13 @@ my_generic.data.frame <- function(x, ..., cols = NULL) {
 log_call <- function(...) {
   # Capture dots as expressions
   dots_exprs <- enquos(...)
-  
+
   # Get names
   names <- names(dots_exprs)
   if (is.null(names)) {
     names <- rep("", length(dots_exprs))
   }
-  
+
   # Log each
   for (i in seq_along(dots_exprs)) {
     message(
@@ -472,7 +475,7 @@ log_call <- function(...) {
       as_label(dots_exprs[[i]])
     )
   }
-  
+
   # Return values
   list2(...)
 }
@@ -488,7 +491,7 @@ log_call(x = 1 + 1, 2 * 2, y = 3 + 3)
 ```r
 test_that("arg_match validates input", {
   f <- function(x = c("a", "b")) arg_match(x)
-  
+
   expect_equal(f("a"), "a")
   expect_error(f("c"), "must be one of")
 })
@@ -498,17 +501,17 @@ test_that("check_dots_empty catches extras", {
     check_dots_empty()
     x
   }
-  
+
   expect_equal(f(1), 1)
   expect_error(f(1, 2), "... must be empty")
 })
 
 test_that("dynamic dots work", {
   f <- function(...) list2(...)
-  
+
   args <- list(a = 1, b = 2)
   result <- f(!!!args, c = 3)
-  
+
   expect_equal(result, list(a = 1, b = 2, c = 3))
 })
 ```
@@ -525,11 +528,11 @@ test_that("dynamic dots work", {
 
 ## Base R Comparison
 
-| rlang | Base R |
-|-------|--------|
-| `list2(...)` | `list(...)` (no injection) |
-| `arg_match()` | `match.arg()` |
-| `check_required()` | `missing()` + `stop()` |
-| `check_dots_empty()` | Manual check |
-| `:=` | No equivalent |
-| `!!!` splicing | `do.call()` |
+| rlang                | Base R                     |
+| -------------------- | -------------------------- |
+| `list2(...)`         | `list(...)` (no injection) |
+| `arg_match()`        | `match.arg()`              |
+| `check_required()`   | `missing()` + `stop()`     |
+| `check_dots_empty()` | Manual check               |
+| `:=`                 | No equivalent              |
+| `!!!` splicing       | `do.call()`                |

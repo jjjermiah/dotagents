@@ -4,12 +4,12 @@
 
 ## The Hierarchy
 
-| Type | Behavior | State | When |
-|------|----------|-------|------|
-| **Fake** | Real logic, in-memory | Tracks mutations | Business logic (70%) |
-| **Stub** | Canned responses | None | Simple returns |
-| **Mock** | Verifies calls | Call tracking | Interaction verification |
-| **Spy** | Real + tracking | Both | Partial verification |
+| Type     | Behavior              | State            | When                     |
+| -------- | --------------------- | ---------------- | ------------------------ |
+| **Fake** | Real logic, in-memory | Tracks mutations | Business logic (70%)     |
+| **Stub** | Canned responses      | None             | Simple returns           |
+| **Mock** | Verifies calls        | Call tracking    | Interaction verification |
+| **Spy**  | Real + tracking       | Both             | Partial verification     |
 
 ## Prefer Fakes Over Mocks
 
@@ -55,6 +55,7 @@ class FakeDatabaseAdapter(DatabaseAdapter):
 ```
 
 **Rules**:
+
 - In-memory only (no I/O)
 - Track mutations for assertions
 - Minimal logic (just enough to work)

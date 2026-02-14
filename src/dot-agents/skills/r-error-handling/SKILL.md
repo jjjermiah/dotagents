@@ -14,6 +14,7 @@ Production-grade error handling and custom condition classes in R. Guide structu
 **We follow one principle: Fail fast, fail informatively.**
 
 Every error handling implementation MUST:
+
 1. Guide users to solutions with clear messages
 2. Preserve debugging context with backtraces
 3. Support selective handling via custom classes
@@ -83,6 +84,7 @@ result <- tryCatch(
 ### Error Class Naming
 
 Format: `{package}_{domain}_{type}`
+
 ```r
 "mypackage_validation_invalid_type"
 "mypackage_io_file_not_found"
@@ -116,7 +118,6 @@ result <- rlang::try_fetch(
   error = function(cnd) { log_error(cnd); rlang::zap() }
 )
 ```
-
 
 ### Package Error Helper
 
@@ -159,26 +160,28 @@ rlang::abort(c(
 
 ## Decision Matrix
 
-| Use Case | Tool | Notes |
-|----------|------|-------|
-| New package | `try_fetch()` + `abort()` | Modern, powerful |
-| Zero dependencies | `tryCatch()` + `stop()` | Acceptable tradeoff |
-| Error chaining | `parent` arg | Preserves context |
-| Input validation | `caller_arg()` + `abort()` | Readable messages |
-| Error recovery | `try_fetch()` | Better than tryCatch |
-| Stack inspection | `try_fetch()` or `withCallingHandlers()` | Both preserve stack |
+| Use Case          | Tool                                     | Notes                |
+| ----------------- | ---------------------------------------- | -------------------- |
+| New package       | `try_fetch()` + `abort()`                | Modern, powerful     |
+| Zero dependencies | `tryCatch()` + `stop()`                  | Acceptable tradeoff  |
+| Error chaining    | `parent` arg                             | Preserves context    |
+| Input validation  | `caller_arg()` + `abort()`               | Readable messages    |
+| Error recovery    | `try_fetch()`                            | Better than tryCatch |
+| Stack inspection  | `try_fetch()` or `withCallingHandlers()` | Both preserve stack  |
 
 ## Anti-Patterns (NEVER Do These)
 
 These patterns ALWAYS cause failures in production. No exceptions.
 
 **NEVER:**
+
 - Swallow errors silently: `tryCatch(x, error = function(e) NULL)` — debugging becomes impossible
 - Use generic error classes: `abort("Error")` — breaks selective handling
 - Forget `call` argument: `abort_mypackage("Error")` — shows wrong function in traceback, every time
 - Discard low-level errors: Rethrow without `parent` — loses critical context
 
 **ALWAYS:**
+
 - Log before recovering: `log_error(cnd); return(fallback)`
 - Use specific classes: `class = "mypackage_specific_error"`
 - Pass call context: `call = caller_env()`

@@ -23,26 +23,31 @@ The first run creates `tests/testthat/_snaps/{test-file}/{test-name}.md` contain
 ## Snapshot Workflow
 
 **Initial creation:**
+
 ```r
 devtools::test()  # Creates new snapshots
 ```
 
 **Review changes:**
+
 ```r
 testthat::snapshot_review('test-name')
 ```
 
 **Accept changes:**
+
 ```r
 testthat::snapshot_accept('test-name')
 ```
 
 **Reject changes:**
+
 ```r
 testthat::snapshot_reject('test-name')
 ```
 
 **Download snapshots from GitHub CI:**
+
 ```r
 testthat::snapshot_download_gh()
 ```
@@ -103,6 +108,7 @@ test_that("output is stable", {
 ```
 
 Common uses:
+
 - Remove timestamps or session IDs
 - Normalize file paths
 - Strip API keys or tokens
@@ -136,7 +142,7 @@ Variants save to `_snaps/{variant}/{test}.md` instead of `_snaps/{test}.md`.
 
 Snapshots are stored as markdown files in `tests/testthat/_snaps/`:
 
-```
+```text
 tests/testthat/
 ├── test-utils.R
 └── _snaps/
@@ -146,6 +152,7 @@ tests/testthat/
 ```
 
 Each snapshot includes:
+
 - Test name as heading
 - Code that generated the output
 - Captured output
@@ -153,6 +160,7 @@ Each snapshot includes:
 ## Common Patterns
 
 **Testing error messages:**
+
 ```r
 test_that("validation errors are clear", {
   expect_snapshot(error = TRUE, {
@@ -164,6 +172,7 @@ test_that("validation errors are clear", {
 ```
 
 **Testing side-by-side comparisons:**
+
 ```r
 test_that("diff output is readable", {
   withr::local_options(width = 80)
@@ -174,6 +183,7 @@ test_that("diff output is readable", {
 ```
 
 **Testing printed output with messages:**
+
 ```r
 test_that("function provides feedback", {
   expect_snapshot({
