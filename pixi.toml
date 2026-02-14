@@ -3,12 +3,11 @@ authors = ["Jermiah Joseph <jermiahjoseph98@gmail.com>"]
 channels = ["conda-forge"]
 name = "dot-agents"
 platforms = ["osx-arm64", "linux-64"]
-version = "0.1.0"
+version = "0.1.0"  # x-release-please-version
 
 
 [environments]
 default = { features = [], solve-group = "default" }
-release = { features = ["git-cliff"], solve-group = "default" }
 quality = { features = ['quality'], solve-group = "default" }
 
 [tasks]
@@ -17,12 +16,6 @@ stow = { cmd = "stow --target=$HOME --dotfiles src -vv", depends-on = ["check-st
 unstow = { cmd = "stow --target=$HOME --dotfiles --delete src -vv", depends-on = ["check-stow"], description = "Unstow dotfiles from home directory" }
 update-readme = { cmd = "python bin/update-readme-tree.py", description = "Update README agents/skills tree section" }
 check-readme = { cmd = "python bin/update-readme-tree.py --check", description = "Check if README is up to date (CI check)" }
-
-[feature.git-cliff.dependencies]
-git-cliff = "*"
-
-[feature.git-cliff.tasks]
-changelog = {cmd = "git-cliff --config cliff.toml --latest --strip header", description = "Generate changelog for latest release", env = { GITHUB_REPO = "jjjermiah/dot-agents" }}
 
 # Platform-specific dependencies: stow only on Linux (via conda-forge)
 [target.linux-64.dependencies]
