@@ -68,6 +68,9 @@ dot-agents
     ├── python-code-quality
     │   Use when configuring Ruff rules, setting up ty type
     │   checking, writing pyproject.
+    ├── python-polars
+    │   Use when writing Python data processing code, data
+    │   transformation pipelines, ETL workflows, or...
     ├── python-production-libs
     │   Use when choosing libraries for HTTP clients, CLI
     │   frameworks, data validation, structured logging,...
@@ -102,6 +105,6 @@ dot-agents
         Use when building new skills, updating existing skills,
         validating skill structure against...
 
-Total: 6 agents, 17 skills
+Total: 6 agents, 18 skills
 ```
 <!-- AGENTS-SKILLS-TREE:END -->
