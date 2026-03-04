@@ -1,21 +1,14 @@
 ---
 name: python-pybytesize
-description: Byte size parsing and formatting with pybytesize. Use when converting bytes to human-readable sizes, parsing size strings, or doing block-aligned calculations—e.g., "format 1GB as MiB", "parse '500MB'", "human readable file size".
+description: |
+  Use for pybytesize/ByteSize tasks: parsing size strings, converting bytes to metric/binary units, formatting human-readable sizes, readable unit selection, block alignment, and ByteSize arithmetic. Triggers "pybytesize", "ByteSize", "format bytes", "human readable size", "MiB/MB", "GiB/GB", "bytes to string", "parse size string", or requests for block-aligned size calculations.
 ---
 
 # Pybytesize
 
 ## Purpose
 
-Use pybytesize (imported as `bytesize`) to parse and manipulate byte sizes with consistent unit conversions and formatting. We provide concise, accurate examples that show how ByteSize objects behave with metric vs binary units.
-
-## Key Requirements
-
-**ALWAYS distinguish metric vs binary units explicitly.** Mixing MB (1000) with MiB (1024) causes silent errors. No exceptions.
-
-**YOU MUST catch specific exceptions** (`UnrecognizedSizeStringError`, `UnknownUnitError`, `NegativeByteSizeError`) when parsing user input. Generic `ByteSizeError` catches everything—but specific exceptions give better UX. Every time.
-
-**When doing block-aligned calculations, verify `block_bytes > 0` first.** `apparent_size()` raises `ValueError` on invalid input. Always.
+Use pybytesize (imported as `bytesize`) to parse and manipulate byte sizes with consistent unit conversions and formatting. Provide concise, accurate examples that show how ByteSize objects behave with metric vs binary units.
 
 ## Quick start
 
@@ -123,14 +116,12 @@ except ByteSizeError as e:
 
 ## Non-obvious details
 
-**String parsing without validation = runtime failures. Every time.** Always wrap parsing in try/except blocks for user input.
-
-- String parsing accepts whitespace and underscores (e.g., " 1024B ", "1_073_741_824MB").
+- String parsing accepts whitespace and underscores (e.g., "   1024B   ", "1_073_741_824MB").
 - `print(ByteSize(...))` defaults to a best-fit binary unit (base 1024).
 - `readable_metric` uses base 1000, `readable_binary` uses base 1024; both return `(unit, value)`.
 - Full-name unit attributes are supported (e.g., `megabytes`, `gibibytes`).
 - `apparent_size(block_bytes)` requires `block_bytes > 0`; it raises ValueError otherwise.
 
-## References
+## References (Load on Demand)
 
 None.
