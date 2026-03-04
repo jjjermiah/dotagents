@@ -1,7 +1,7 @@
 ---
 description: General-purpose agent for researching complex questions and executing multi-step tasks. Use this agent to execute multiple units of work in parallel.
 mode: primary
-model: openai/gpt-5.2-codex
+model: openai/gpt-5.3-codex
 temperature: 0.3
 # permission:
 #   read:

@@ -1,7 +1,7 @@
 ---
 description: ALWAYS USE WHEN THE USER ASKS FOR ANYTHING RELATED TO JIRA OR CONFLUENCE.
 mode: subagent
-model: anthropic/claude-haiku-4-5
+model: anthropic/claude-haiku-4-6
 temperature: 0.2
 tools:
   atlassian-rovo-mcp_*: true
@@ -32,3 +32,10 @@ tools:
   </summary>
 </pattern>
 ```
+
+
+## Jira Ticket Standards
+
+Whenever you CREATE or UPDATE Jira tickets, follow these standards:
+- ALWAYS assign to the requester(me) by default
+- ALWAYS use the `RnD` project unless explicitly told otherwise
