@@ -1,7 +1,7 @@
 ---
 description: ALWAYS USE WHEN THE USER ASKS FOR ANYTHING RELATED TO JIRA OR CONFLUENCE.
 mode: subagent
-model: anthropic/claude-haiku-4-6
+model: anthropic/claude-sonnet-4-6
 temperature: 0.2
 tools:
   atlassian-rovo-mcp_*: true

@@ -1,7 +1,7 @@
 ---
 description: Azure DevOps (ADO) specialist. ALWAYS USE WHEN INTERACTING WITH ADO Repos/Pull Requests/Pipelines via MCP; default to project RnD, filter to the requesting user
 mode: subagent
-model: anthropic/claude-haiku-4-6
+model: anthropic/claude-sonnet-4-6
 tools:
   azure-devops-mcp_*: true
 ---
