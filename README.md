@@ -68,12 +68,15 @@ dot-agents
     ├── python-code-quality
     │   Use when configuring Ruff rules, setting up ty type
     │   checking, writing pyproject.
+    ├── python-polars
+    │   Use when writing Python data processing code, data
+    │   transformation pipelines, ETL workflows, or...
     ├── python-production-libs
     │   Use when choosing libraries for HTTP clients, CLI
     │   frameworks, data validation, structured logging,...
     ├── python-pybytesize
-    │   Use when converting bytes to human-readable sizes, parsing
-    │   size strings, or doing block-aligned...
+    │   Use for pybytesize/ByteSize tasks: parsing size strings,
+    │   converting bytes to metric/binary units,...
     ├── python-testing
     │   Use when writing tests, reviewing test quality, designing
     │   fixtures, setting up pytest, or debugging...
@@ -98,10 +101,13 @@ dot-agents
     ├── script-writer
     │   Use when developing bash automation, Python CLI tools, shell
     │   scripts, system administration...
+    ├── sdk-module-investigation
+    │   Use when asked to "investigate module", "SDK", "client
+    │   class", or when docs are missing/weak and...
     └── skill-creator
         Use when building new skills, updating existing skills,
         validating skill structure against...
 
-Total: 6 agents, 17 skills
+Total: 6 agents, 19 skills
 ```
 <!-- AGENTS-SKILLS-TREE:END -->
